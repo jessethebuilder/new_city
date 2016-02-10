@@ -1,0 +1,72 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<XML>
+<Messages>
+<MessagesID>1632</MessagesID>
+<MessagesClientID>53b155d99d357</MessagesClientID>
+<MessagesText>
+&lt;p&gt;&lt;video width=\"640\" height=\"480\" autoplay=\"autoplay\" loop=\"loop\" preload=\"none\" src=\"https://www.newcitymedia.net/media/53b155d99d357/oceans-clip.mp4\"&gt;&lt;/video&gt;&lt;/p&gt;
+</MessagesText>
+<MessagesDef>0</MessagesDef>
+<MessagesDur>45</MessagesDur>
+<MessagesConf>0</MessagesConf>
+<MessagesExpire>0</MessagesExpire>
+<MessagesDatetime/>
+<MessagesUserDefFunction>0</MessagesUserDefFunction>
+<MessagesSize>0</MessagesSize>
+</Messages>
+<Messages>
+<MessagesID>1984</MessagesID>
+<MessagesClientID>53b155d99d357</MessagesClientID>
+<MessagesText>
+&lt;p style=\"text-align: center;\"&gt;&lt;span style=\"font-size: 44px;\"&gt;REMINDER&nbsp;&lt;/span&gt;&lt;/p&gt; &lt;p style=\"text-align: center;\"&gt;&lt;span style=\"font-size: 44px;\"&gt;Timesheets due on friday at 4pm.&lt;/span&gt;&lt;/p&gt;
+</MessagesText>
+<MessagesDef>0</MessagesDef>
+<MessagesDur>20</MessagesDur>
+<MessagesConf>0</MessagesConf>
+<MessagesExpire>0</MessagesExpire>
+<MessagesDatetime/>
+<MessagesUserDefFunction>0</MessagesUserDefFunction>
+<MessagesSize>0</MessagesSize>
+</Messages>
+<Messages>
+<MessagesID>1985</MessagesID>
+<MessagesClientID>53b155d99d357</MessagesClientID>
+<MessagesText>
+&lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-0.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-1.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-2.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-3.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-4.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-5.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-6.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-7.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-8.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-9.png?2018\" /&gt;&lt;/div&gt; &lt;div class=\"converted_page\" style=\"position: relative;\"&gt;&lt;img class=\"ppt_image\" alt=\"\" src=\"https://www.newcitymedia.net/media/53b155d99d357/0/converted/1985/converted-10.png?2018\" /&gt;&lt;/div&gt;
+</MessagesText>
+<MessagesDef>0</MessagesDef>
+<MessagesDur>5</MessagesDur>
+<MessagesConf>0</MessagesConf>
+<MessagesExpire>0</MessagesExpire>
+<MessagesDatetime>0000-00-00 00:00:00</MessagesDatetime>
+<MessagesUserDefFunction>0</MessagesUserDefFunction>
+<MessagesSize>0</MessagesSize>
+</Messages>
+<Player>
+<ID>141</ID>
+<ClientID>53b155d99d357</ClientID>
+<CalendarID>621</CalendarID>
+<updateTime>2016-02-05 16:57:48</updateTime>
+<reloadTime>2015-06-05 11:19:12</reloadTime>
+<reload>1</reload>
+<status/>
+<hash/>
+<description/>
+<timeOn>00:00:00</timeOn>
+<timeOff>00:00:00</timeOff>
+<timeDays/>
+<netOption1/>
+<netOption2/>
+<netOption3/>
+<netOption4/>
+<pid>623</pid>
+</Player>
+<weather>
+<pid>623</pid>
+<w_data>
+<div class="weather_text_current"><div class="weather_text_pri">Brooklyn,NY: 74.6F, Humidity: 62%</div><div class="weather_text_sec">Wind: From the NNW at 2.0 MPH Gusting to 12.0 MPH</div></div><div class="weather_forecast"><div class="weather_text_others">Wednesday<BR><img class="weather_icons" src="/media/weather/partlycloudy.gif"><div class="weather_text_others">85F | 67F</div></div><div class="weather_text_others">Thursday<BR><img class="weather_icons" src="/media/weather/clear.gif"><div class="weather_text_others">84F | 66F</div></div><div class="weather_text_others">Friday<BR><img class="weather_icons" src="/media/weather/clear.gif"><div class="weather_text_others">84F | 68F</div></div><div class="weather_text_others">Saturday<BR><img class="weather_icons" src="/media/weather/clear.gif"><div class="weather_text_others">81F | 68F</div></div></div>
+</w_data>
+<w_time>2014-08-06 09:59:09</w_time>
+<client_id>53b155d99d357</client_id>
+</weather>
+</XML>

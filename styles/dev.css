@@ -1,0 +1,22 @@
+body{
+	background-color: black;
+}
+/*--- Player ---*/
+#new_city_player{
+	background-color: lightgrey;
+	
+}
+/*--- Messages ---*/
+#message{
+	
+}
+/*--- Player Controls ---*/
+#message_navigation{
+	margin-top: 20px;
+	font-size: 32px;
+}
+
+.link:hover{
+	cursor: pointer;
+	color: green;	
+}
