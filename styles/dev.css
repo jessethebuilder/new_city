@@ -4,7 +4,7 @@ body{
 /*--- Player ---*/
 #new_city_player{
 	background-color: lightgrey;
-	
+	padding: 40px;
 }
 /*--- Messages ---*/
 #message{
@@ -16,7 +16,10 @@ body{
 	font-size: 32px;
 }
 
-.link:hover{
-	cursor: pointer;
+.component_content{
+	font-size: 40px;
+}
+
+.click_control:hover{
 	color: green;	
 }

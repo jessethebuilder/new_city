@@ -5,7 +5,7 @@ function useMainCache(){
 
 //--- Config Vars ---
 var data_url = 'temp/test_rss.xml';
-var current_time_format = 'MMMM dd, yyyy h:mm:ss a';
+// var current_time_format = 'MMMM dd, yyyy h:mm:ss a';
 //--- App Specific Functions ---
 
 function Message(pages, duration){
@@ -58,13 +58,18 @@ function parseUpdateTime(player_data){
 //--- Define Angular App
 var newCityPlayer = angular.module('newCityPlayer', ['ngRoute', 'ngSanitize']);
 
-// newCityPlayer.config(['$routeProvider', function($routeProvider){
-	// $routeProvider.when('/', {
-		// controller: 'newCityPlayerController'
-	// }).otherwise({
-		// redirectTo: '/'
-	// });
-// }]);
+newCityPlayer.config(['$routeProvider', function($routeProvider){
+	$routeProvider.when('/', {
+		controller: 'newCityPlayerController',
+		templateUrl: 'partials/player.html', 
+		css: 'styles/dev.css'
+	}).when('/:client', {
+		controller: 'newCityPlayerController',
+		// css: 'styles/' + $routeParams.client
+	}).otherwise({
+		redirectTo: '/'
+	});
+}]);
 
 newCityPlayer.factory('playerData', ['$http', function($http){
 	return {
@@ -82,10 +87,15 @@ newCityPlayer.factory('playerData', ['$http', function($http){
 // 	
 // });
 
+newCityPlayer.directive('player_update_countdown', function(){
+	return{
+		template: "Auto Update Player in {{}}"
+	};
+});
 
 newCityPlayer.controller('newCityPlayerController', 
-						 ['$scope', '$rootScope', '$routeParams', '$interval', '$location', '$sce', '$http', 'playerData', 'dateFilter', 
-						 function($scope, $rootScope, $routeParams, $interval, $location, $sce, $http, playerData, dateFilter){
+						 ['$scope', '$rootScope', '$routeParams', '$route', '$interval', '$location', '$sce', '$http', 'playerData', 'dateFilter', 
+						 function($scope, $rootScope, $routeParams, $route, $interval, $location, $sce, $http, playerData, dateFilter){
 		
 	//------ Get Messages ------------------
 	playerData.data(function(data){
@@ -94,8 +104,18 @@ newCityPlayer.controller('newCityPlayerController',
 
 		//------- Set Player Options ----------------
 		var player_data = parsePlayerData(data);
-		$scope.update_time = parseUpdateTime(player_data);
-	
+		
+		
+		//not sure what ticker is going to look like
+		$scope.ticker = ['Ticker item 1', 'Some news that has some stuff', "dont' think I like Law and Order"];
+		$scope.update_time_format = 'MMMM dd, yyyy h:mm:ss a';
+		$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';
+		
+		
+		//jfx------------------------------------------------------------------------------------------------xxxxxxxxxxxxxxxxx
+		$scope.update_time = new Date('2016-02-11 17:45:00');
+		// $scope.update_time = new Date(parseUpdateTime(player_data));
+		
 		//------------- Navigation Functions --------------
 		//Set initial values
 		$scope.message_index = 0;
@@ -157,27 +177,63 @@ newCityPlayer.controller('newCityPlayerController',
 		
 		//---------------- Timer functions -------------
 		var stop;
-		var message_timer = false;
+		var message_timer = false;	
+		var update_at_in_seconds = new Date($scope.update_timer).getSeconds();
+		$scope.auto_update_in_seconds = ((Math.floor(Date.parse($scope.update_time) / 1000)) - (Math.floor(Date.now() / 1000)));
+
+		function updateAutoUpdate(){
+			$scope.auto_update_in_seconds = $scope.auto_update_in_seconds - 1;
+			
+			$scope.auto_update_timer = $scope.auto_update_in_seconds;
+			
+			var n = $scope.auto_update_in_seconds; 
+			var h = Math.floor(n / 3600);
+			var m = Math.floor((n % 3600) / 60);
+			var s = n - (h * 3600 + m * 60);
+			
+			s = s < 10 ? '0' + s : s;
+			
+			var time;
+			
+			if(h === 0){
+				time = m + ":" + s;
+			} else {
+				m = m < 10 ? '0' + m : m;
+				time = h + ":" + m + ":" + s;
+			}
+			
+			$scope.auto_update_timer = time;
+			// $scope.auto_update_timer = [h, m, s].join(':');
+
+		}
 		
+		function updateMessageTimer(){
+			if(message_timer){
+				$scope.duration = $scope.duration - 1;			
+			
+				if($scope.duration == 0){
+		    		$scope.setNextMessage();
+		    	}	
+			} 
+		}
+		
+		function updateCurrentTime(){	
+			$scope.current_time = Date.now();	
+		}
+		
+
 		function startTimer(){
 			stop = $interval(function(){
-				if(message_timer){
-					$scope.duration = $scope.duration - 1;			
+				updateMessageTimer();
+				updateCurrentTime();							  
+				updateAutoUpdate();  	 
 				
-					if($scope.duration == 0){
-		    			$scope.setNextMessage();
-		    		}	
-				} // if message_timer		  
-				
-				var now = new Date();
-				var update_at = new Date($scope.update_time);
-				
-				if(now >= update_at){
-					// $location.url('/');
+				if($scope.update_time < $scope.current_time){
+					// $route.reload();
+					window.location = window.location;
+					// console.log('ss');		
+					// window.location = '/';
 				}
-				
-				
-				$scope.current_time = dateFilter(now, current_time_format);  	 
 			}, 1000);
 		}
 		
@@ -209,7 +265,7 @@ newCityPlayer.controller('newCityPlayerController',
 	
 		//----------------- Page Flipper Functions ----------
 		$scope.setPage = function(page_index){
-			$stopMessageTimer();
+			$scope.stopMessageTimer();
 			$scope.setMessage($scope.message_index, page_index);
 		};
 		
@@ -220,5 +276,12 @@ newCityPlayer.controller('newCityPlayerController',
 		$scope.setPrevPage = function(){
 			$scope.setPage($scope.page_index - 1);
 		};
+		
+		//------------ Ticker Functions ----------------
+		function startTicker(){
+			alert('x');
+			jQuery('#ticker').webTicker();	
+		}
+		
 	});
 }]);

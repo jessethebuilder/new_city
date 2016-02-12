@@ -1,0 +1,28 @@
+#new_city_player{
+  width: 1920px;
+  height: 1080px;
+}
+
+.converted_page .ppt_image{
+  width: 100%;
+}
+
+
+.click_control:hover{
+  cursor: pointer;
+}
+
+/*------------ Web Ticker ------------------*/
+.tickercontainer
+/* width of the original container in which the ticker appears */
+.tickercontainer .mask
+/* can be used to achieve padding within the container */
+ul.newsticker {
+    //important to enable css3 transitions properly 
+    -webkit-transition: all 0s linear;
+    -moz-transition: all 0s linear;
+    -o-transition: all 0s linear;
+    transition: all 0s linear;
+    list-style:none;
+    margin:0;
+}

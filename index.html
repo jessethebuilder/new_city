@@ -5,69 +5,24 @@
 	
 	
 	<script src="js/vendor/jquery/jquery-2.2.0.js"></script>
-    
+	
+	<script src="js/utilities.js"></script>
+	
     <script src="js/vendor/angular/angular.js"></script>
 	<script src="js/vendor/angular/angular-route.js"></script>
     <script src="js/vendor/angular/angular-sanitize.js"></script>
+    <script src="js/vendor/angular/angular-css.js"></script>
     
-    
-	
 	<script src="js/app.js"></script>
-	
-	
-	<link rel="stylesheet" href="styles/layout.css">
-	
-	<link rel="stylesheet" href="styles/dev.css">
+
+    <script src="js/vendor/jquery/jquery-web-ticker.js"></script>
+    
+
+	<link rel="stylesheet" href="styles/app.css">	
 </head>
 
 <body> 
-    <div id="new_city_player" ng-app="newCityPlayer" ng-controller="newCityPlayerController">
-        <div id="top_nav">
-            <div class="component_content"></div>
-        </div>
-        
-        <div id="company_logo">
-            <div class="component_content"></div>
-        </div>
-        
-        <div id="current_time">
-            <div class="component_content">
-                {{current_time}}    
-            </div>          
-        </div>
-        
-        <div id="message"> 
-            <div class="component_content" ng-bind-html="message"></div>    
-        </div>
-
-       <div id="player_controls">
-           <div id="message_timer">
-               <div class="component_content">
-                    {{duration}}    
-               </div>
-           </div>
-           
-           <div id="message_navigation">
-               <div class="component_content">
-                   <span id="prev_message" class="link component_control" ng-click="setPrevMessage()">prev</span>
-                   <span id="next_message" class="link component_control" ng-click="setNextMessage()">next</span>    
-               </div>
-           </div>
-           
-           <div id="message_controls">
-               <div class="component_content">
-                   <span id="stop_message_timer" class="link component_control" ng-click="stopMessageTimer()">stop</span>
-                   <span id="start_message_timer" class="link component_control" ng-click="startMessageTimer()">start</span>
-               </div>
-           </div>
-           
-           <div id="page_navigation">
-               <div class="component_content">
-                    <span  id="prev_page" class="link component_control" ng-click="setPrevPage()">back</span>
-                    <span id="next_page" class="link component_control" ng-click="setNextPage()">forward</span>
-               </div>
-           </div>
-       </div>   
+    <div id="new_city_player" ng-app="newCityPlayer" ng-controller="newCityPlayerController" ng-view>
     </div>
 </body>
 </html>

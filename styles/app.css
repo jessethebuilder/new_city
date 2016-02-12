@@ -1,0 +1,42 @@
+body {
+  background-color: black; }
+
+/*--- Player ---*/
+#new_city_player {
+  background-color: lightgrey;
+  padding: 40px; }
+
+/*--- Messages ---*/
+/*--- Player Controls ---*/
+#message_navigation {
+  margin-top: 20px;
+  font-size: 32px; }
+
+.component_content {
+  font-size: 40px; }
+
+.click_control:hover {
+  color: green; }
+
+#new_city_player {
+  width: 1920px;
+  height: 1080px; }
+
+.converted_page .ppt_image {
+  width: 100%; }
+
+.click_control:hover {
+  cursor: pointer; }
+
+/*------------ Web Ticker ------------------*/
+.tickercontainer
+.tickercontainer .mask
+ul.newsticker {
+  -webkit-transition: all 0s linear;
+  -moz-transition: all 0s linear;
+  -o-transition: all 0s linear;
+  transition: all 0s linear;
+  list-style: none;
+  margin: 0; }
+
+/*# sourceMappingURL=app.css.map */

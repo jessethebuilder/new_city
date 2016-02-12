@@ -1,0 +1,77 @@
+<div class="app">
+    <div id="top_nav">
+        <div class="component_content"></div>
+    </div>
+    
+    <div id="company_logo">
+        <div class="component_content"></div>
+    </div>
+    
+    <div id="current_time">
+        <div class="component_content">
+            <span class="component_label pre">Current Time:</span>
+            {{current_time | date:update_time_format}}
+            <span class="compent_label post"></span>    
+        </div>          
+    </div>
+    
+    <div id="message"> 
+        <div class="component_content" ng-bind-html="message"></div>    
+    </div>
+
+    <div id="duration">
+        <div class="component_content">
+            <span class="component_label pre">next message in</span>
+            {{duration}}
+            <span class="compent_label post">seconds</span>
+        </div>
+    </div>
+    
+    <div id="auto_update_timer">
+        <div class="component_content">
+            <span class="component_label pre">update player in</span>
+            {{auto_update_timer}}
+            <span class="compent_label post"></span>
+        </div>
+    </div>
+    
+    <div id="update_time">
+        <div class="component_content">
+            <span class="component_label">next automatic player update at</span>
+            {{update_time | date:update_time_format}}
+            <span class="component_label post"></span>
+        </div>
+        
+    </div>
+    
+    <div id="message_navigation">
+        <div class="component_content">
+            <span id="prev_message" class="click_control" ng-click="setPrevMessage()">prev</span>
+            <span id="next_message" class="click_control" ng-click="setNextMessage()">next</span>    
+        </div>
+    </div>
+    
+    <div id="message_controls">
+        <div class="component_content">
+            <span id="stop_message_timer" class="click_control" ng-click="stopMessageTimer()">stop</span>
+            <span id="start_message_timer" class="click_control" ng-click="startMessageTimer()">start</span>
+        </div>
+    </div>
+    
+    <div id="page_navigation">
+        <div class="component_content">
+             <span  id="prev_page" class="click_control" ng-click="setPrevPage()">back</span>
+             <span id="next_page" class="click_control" ng-click="setNextPage()">forward</span>
+        </div>
+    </div>
+    
+    <div id="ticker">
+        <div class="component_content">
+            <ul id="ticker">
+                <li ng-repeat="item in ticker">
+                    {{item}}
+                </li>
+            </ul>  
+        </div>
+    </div>    
+</div>
