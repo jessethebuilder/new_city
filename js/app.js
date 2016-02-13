@@ -5,7 +5,8 @@ function useMainCache(){
 
 //--- Config Vars ---
 var data_url = 'temp/test_rss.xml';
-// var current_time_format = 'MMMM dd, yyyy h:mm:ss a';
+// var data_url = 'temp/test.json';
+
 //--- App Specific Functions ---
 
 function Message(pages, duration){
@@ -83,14 +84,17 @@ newCityPlayer.factory('playerData', ['$http', function($http){
 	};
 }]);
 
-// newCityPlayer.directive('playerStory', function(){
-// 	
-// });
-
-newCityPlayer.directive('player_update_countdown', function(){
-	return{
-		template: "Auto Update Player in {{}}"
-	};
+newCityPlayer.directive('onFinishRender', function ($timeout) {
+return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+        if (scope.$last === true) {
+            $timeout(function () {
+                scope.$emit('ngRepeatFinished');
+            });
+        }
+    }
+};
 });
 
 newCityPlayer.controller('newCityPlayerController', 
@@ -100,21 +104,18 @@ newCityPlayer.controller('newCityPlayerController',
 	//------ Get Messages ------------------
 	playerData.data(function(data){
 		// messages is an array of arrays. Single page arrays have a single index (0).
+		
 		$scope.messages = getMessagesFromData(data);
 
 		//------- Set Player Options ----------------
 		var player_data = parsePlayerData(data);
-		
-		
+				
 		//not sure what ticker is going to look like
 		$scope.ticker = ['Ticker item 1', 'Some news that has some stuff', "dont' think I like Law and Order"];
 		$scope.update_time_format = 'MMMM dd, yyyy h:mm:ss a';
 		$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';
 		
-		
-		//jfx------------------------------------------------------------------------------------------------xxxxxxxxxxxxxxxxx
-		$scope.update_time = new Date('2016-02-11 17:45:00');
-		// $scope.update_time = new Date(parseUpdateTime(player_data));
+		$scope.update_time = new Date(parseUpdateTime(player_data));
 		
 		//------------- Navigation Functions --------------
 		//Set initial values
@@ -203,8 +204,6 @@ newCityPlayer.controller('newCityPlayerController',
 			}
 			
 			$scope.auto_update_timer = time;
-			// $scope.auto_update_timer = [h, m, s].join(':');
-
 		}
 		
 		function updateMessageTimer(){
@@ -227,12 +226,8 @@ newCityPlayer.controller('newCityPlayerController',
 				updateMessageTimer();
 				updateCurrentTime();							  
 				updateAutoUpdate();  	 
-				
-				if($scope.update_time < $scope.current_time){
-					// $route.reload();
-					window.location = window.location;
-					// console.log('ss');		
-					// window.location = '/';
+				if($scope.update_time < $scope.current_time){			
+					window.location = window.location.pathname;
 				}
 			}, 1000);
 		}
@@ -278,10 +273,9 @@ newCityPlayer.controller('newCityPlayerController',
 		};
 		
 		//------------ Ticker Functions ----------------
-		function startTicker(){
-			alert('x');
+		$scope.$on('ngRepeatFinished', function(e){
 			jQuery('#ticker').webTicker();	
-		}
-		
+
+		});
 	});
 }]);

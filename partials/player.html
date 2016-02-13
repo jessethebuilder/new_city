@@ -1,77 +1,135 @@
 <div class="app">
     <div id="top_nav">
-        <div class="component_content"></div>
+        <div class="component_content">
+            <div class="pre"></div>
+            <div class="in"></div>
+            <div class="post"></div>
+        </div>
     </div>
     
     <div id="company_logo">
-        <div class="component_content"></div>
+        <div class="component_content">
+            <span class="pre"></span>
+            <span class="in"></span>
+            <span class="post"></span>
+        </div>
     </div>
     
     <div id="current_time">
         <div class="component_content">
-            <span class="component_label pre">Current Time:</span>
-            {{current_time | date:update_time_format}}
-            <span class="compent_label post"></span>    
+            <span class="pre">current time</span>
+            <span class="in">{{current_time | date:current_time_format}}</span>
+            <span class="post"></span>
         </div>          
     </div>
     
-    <div id="message"> 
-        <div class="component_content" ng-bind-html="message"></div>    
+    <div id="message">
+        <div class="component_content">
+            <span class="pre"></span>
+            <span class="in" ng-bind-html="message"></span>
+            <span class="post"></span>    
+        </div> 
+    </div>
+    
+    <div id="message_select">
+        <div class="component_content">
+            <span class="pre"></span>
+            <span class="in click_control" ng-repeat="message in messages">
+                {{message.name}}
+            </span>
+            <span class="post"></span>    
+        </div>
     </div>
 
     <div id="duration">
         <div class="component_content">
-            <span class="component_label pre">next message in</span>
-            {{duration}}
-            <span class="compent_label post">seconds</span>
+            <span class="pre">next message in</span>
+            <span class="in">{{duration}}</span>
+            <span class="post">seconds</span>
         </div>
     </div>
     
     <div id="auto_update_timer">
         <div class="component_content">
-            <span class="component_label pre">update player in</span>
-            {{auto_update_timer}}
-            <span class="compent_label post"></span>
+            <span class="pre">update player in</span>
+            <span class="in">
+                {{auto_update_timer}}
+            </span>
+            <span class="post"></span>
         </div>
     </div>
     
     <div id="update_time">
         <div class="component_content">
-            <span class="component_label">next automatic player update at</span>
-            {{update_time | date:update_time_format}}
-            <span class="component_label post"></span>
-        </div>
-        
+            <span class="pre">next automatic player update at</span>
+            <span class="in">
+                {{update_time | date:update_time_format}}
+            </span>
+            <span class="post"></span>
+        </div>        
     </div>
     
     <div id="message_navigation">
         <div class="component_content">
-            <span id="prev_message" class="click_control" ng-click="setPrevMessage()">prev</span>
-            <span id="next_message" class="click_control" ng-click="setNextMessage()">next</span>    
+            <span class="pre"></span>
+            <span id="prev_message" class="click_control in" ng-click="setPrevMessage()">
+                <span class="control_text">prev</span>
+            </span>
+            <span class="post"></span>
+            
+            <span class="pre"></span>
+            <span id="next_message" class="click_control in" ng-click="setNextMessage()">
+                <span class="control_text">next</span>
+            </span>    
+            <span class="component_label post"></span>
         </div>
     </div>
     
-    <div id="message_controls">
+    <div id="timer_controls">
         <div class="component_content">
-            <span id="stop_message_timer" class="click_control" ng-click="stopMessageTimer()">stop</span>
-            <span id="start_message_timer" class="click_control" ng-click="startMessageTimer()">start</span>
+            <span class="pre"></span>
+                <span id="stop_message_timer" class="click_control in" ng-click="stopMessageTimer()">
+                    <span class="component_label">stop</span>
+                </span>
+            <span class="post"></span>
+
+            <span class="pre"></span>   
+                <span id="start_message_timer" class="click_control in" ng-click="startMessageTimer()">
+                    <span class="control_text">start</span>
+                </span>
+            <span class="component_label post"></span>
         </div>
     </div>
     
     <div id="page_navigation">
         <div class="component_content">
-             <span  id="prev_page" class="click_control" ng-click="setPrevPage()">back</span>
-             <span id="next_page" class="click_control" ng-click="setNextPage()">forward</span>
+            <span class="pre"></span>
+            <span  id="prev_page" class="click_control" ng-click="setPrevPage()">
+                <span class="control_text">back</span>
+            </span>
+            <span class="post"></span>
+
+            <span class="pre"></span>
+            <span id="next_page" class="click_control" ng-click="setNextPage()">
+                <span class="control_text">
+                    forward
+                </span>
+            </span>
+            <span class="post"></span>
         </div>
     </div>
     
     <div id="ticker">
         <div class="component_content">
-            <ul id="ticker">
-                <li ng-repeat="item in ticker">
-                    {{item}}
-                </li>
-            </ul>  
+            <span class="pre"></span>
+            <span class="in">   
+                <ul id="ticker">
+                    <li ng-repeat="item in ticker" on-finish-render>
+                        {{item}}
+                    </li>
+                </ul>  
+            </span>
+            <span class="post"></span>
         </div>
     </div>    
 </div>
