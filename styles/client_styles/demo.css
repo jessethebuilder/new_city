@@ -1,0 +1,30 @@
+body {
+  background-color: black; }
+
+/*--- Player ---*/
+#new_city_player {
+  background-color: lightgrey;
+  padding: 40px; }
+
+/*--- Message ---*/
+#message_name .nc_in {
+  font-size: 130px; }
+
+#message_select .message_name {
+  display: block; }
+
+/*--- Player Controls ---*/
+#message_navigation {
+  margin-top: 20px;
+  font-size: 32px; }
+
+.component_content {
+  font-size: 40px; }
+
+.click_control:hover {
+  color: green; }
+
+#auto_update_timer, #update_time, #ticker, #current_time .nc_pre {
+  display: none; }
+
+/*# sourceMappingURL=demo.css.map */

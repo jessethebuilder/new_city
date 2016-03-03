@@ -1,127 +1,88 @@
-//--- Config Functions 
-function useMainCache(){
-	return true;
-}
-
 //--- Config Vars ---
-var data_url = 'temp/test_rss.xml';
-// var data_url = 'temp/test.json';
-
-//--- App Specific Functions ---
-
-function Message(pages, duration){
-	this.pages = pages;
-	this.duration = duration;
-};
-
-function getMessagesFromData(data){
-	var reg = /<Messages>([^]+?)<\/Messages>/g;
-	var message_text_reg = /<MessagesText>([^]+?)<\/MessagesText>/;
-	var message_dur_reg = /<MessagesDur>([^]+?)<\/MessagesDur>/;
-	var arr = [];
-	var m;
-	
-	while(m = reg.exec(data)){
-		var msg = new Message;
-		var page_reg = /<div class="converted_page"[^]+?<\/div>/g;
-		var page_match;
-		var page_arr = [];
-		var message = message_text_reg.exec(m[1])[1].replace(/\\"/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-		
-		// console.log(message);
-		
-		while(page_match = page_reg.exec(message)){
-			if(page_match){
-				page_arr.push(page_match[0]);	
-			}
-		}	
-		
-		msg.pages = page_arr.length > 0 ? page_arr : [message];
-		msg.duration = message_dur_reg.exec(m[1])[1];
-		
-		arr.push(msg);
-	}
-	
-	return arr;	
-}
-
-function parsePlayerData(data){
-	var reg = /<Player>([^]+?)<\/Player>/g;
-	// console.log(reg.exec(data)[1]);
-	return reg.exec(data)[1];
-}
-
-function parseUpdateTime(player_data){
-	var update_time_reg = /<updateTime>(.*)<\/updateTime/;
-	return update_time_reg.exec(player_data)[1];
-}
+// var data_url = 'temp/test_rss.xml';
+var data_url = 'temp/test.json';
 
 //--- Define Angular App
 var newCityPlayer = angular.module('newCityPlayer', ['ngRoute', 'ngSanitize']);
 
 newCityPlayer.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
+		// controller: 'newCityPlayerController',
+		// templateUrl: 'partials/player.html', 
+		// css: 'styles/dev.css'
+		redirectTo: '/demo/0'
+	}).when('/:client/:message_index', {
 		controller: 'newCityPlayerController',
-		templateUrl: 'partials/player.html', 
-		css: 'styles/dev.css'
+		templateUrl: 'partials/player.html'
 	}).when('/:client', {
-		controller: 'newCityPlayerController',
+		redirectTo: '/demo/0'
+		// controller: 'newCityPlayerController',
 		// css: 'styles/' + $routeParams.client
 	}).otherwise({
 		redirectTo: '/'
 	});
 }]);
 
-newCityPlayer.factory('playerData', ['$http', function($http){
-	return {
-		data: function(callback){
-			$http({
-				method: 'GET', 
-				url: data_url,
-				cache: true
-			}).success(callback);		
-		}
+function parseMessageData(messageData){
+	var arr = [];
+	for(var i = 0; i < messageData.length; i++){
+		m = messageData[i];
+		
+		arr.push({
+			message: m.message,
+			name: m.name,
+			duration: m.duration,
+			transition: m.transition
+		});
+	}
+	return arr;
+}
+
+newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
+	var ret = {};
+	
+	ret.getData = function(){
+		var raw = $http({
+			method: 'GET',	
+			url: data_url,
+			cache: true
+		});		
+		return $q.all({'raw':raw});
 	};
+	
+	return ret;
 }]);
 
-newCityPlayer.directive('onFinishRender', function ($timeout) {
-return {
-    restrict: 'A',
-    link: function (scope, element, attr) {
-        if (scope.$last === true) {
-            $timeout(function () {
-                scope.$emit('ngRepeatFinished');
-            });
-        }
-    }
-};
-});
+// newCityPlayer.factory('MessageTimer')
 
 newCityPlayer.controller('newCityPlayerController', 
-						 ['$scope', '$rootScope', '$routeParams', '$route', '$interval', '$location', '$sce', '$http', 'playerData', 'dateFilter', 
-						 function($scope, $rootScope, $routeParams, $route, $interval, $location, $sce, $http, playerData, dateFilter){
-		
-	//------ Get Messages ------------------
-	playerData.data(function(data){
-		// messages is an array of arrays. Single page arrays have a single index (0).
-		
-		$scope.messages = getMessagesFromData(data);
-
-		//------- Set Player Options ----------------
-		var player_data = parsePlayerData(data);
+						 ['$scope', '$routeParams', '$interval', '$http', '$sce', '$location', 'dateFilter', 'PlayerData',
+						 function($scope, $routeParams, $interval, $http, $sce, $location, dateFilter, PlayerData){
+		PlayerData.getData().then(function(data, status, headers, config){
+			// Get Message Data
+			$http({
+				method: 'GET',
+				url: data.raw.data[0].feed_url,
+				cache: true
+			}).success(function(data, status, headers, config){			
+				$scope.messages = data;
+				var raw_message = $scope.messages[$routeParams.message_index];
+			 	$scope.message = $sce.trustAsHtml(raw_message.message);
+				$scope.duration = raw_message.duration;		
+				$scope.message_name = raw_message.name;	
 				
-		//not sure what ticker is going to look like
+			}).error(function(){
+				console.log(status);
+			});
+		});
+						
 		$scope.ticker = ['Ticker item 1', 'Some news that has some stuff', "dont' think I like Law and Order"];
 		$scope.update_time_format = 'MMMM dd, yyyy h:mm:ss a';
 		$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';
 		
-		$scope.update_time = new Date(parseUpdateTime(player_data));
+		// $scope.update_time = new Date(parseUpdateTime(player_data));
 		
 		//------------- Navigation Functions --------------
-		//Set initial values
-		$scope.message_index = 0;
-		$scope.page_index = 0;
-		
 		function setPageNavigation(){
 			var multi_page = $scope.messages[$scope.message_index].pages.length > 1 ? true : false;
 			
@@ -132,53 +93,34 @@ newCityPlayer.controller('newCityPlayerController',
 			}
 			
 			return multi_page;
-		}
-		$scope.setMessage = function(index, page_index){
-			if(typeof page_index === 'undefined'){
-				// Goes to index 0 if page is not specified
-				page_index = 0;
-			}
-			
-			// Normalize index
-			if(index == $scope.messages.length){
-				index = 0;
-			}
-			
-			if(index == -1){
-				index = $scope.messages.length - 1;
-			}
-			
-			// Set Message Variables
-			// Duration and initial duration (#duration_total)
-			$scope.duration = $scope.messages[index].duration;
-			$scope.duration_total = $scope.duration;
-			
-			// Indexes
-			$scope.message_index = index;
-			$scope.page_index = page_index;
-			
-			// Set the Message that shows
-			$scope.message = $sce.trustAsHtml($scope.messages[index].pages[page_index]);
-			
-			// Show/Hide page navigation depending on whether message is multi-page.
-			setPageNavigation();
+		}
+		
+		$scope.setMessage = function(index){
+			$location.path('/' + $routeParams.client + '/' + index);
 		};
 		
 		$scope.setNextMessage = function(){
-			$scope.setMessage($scope.message_index + 1);				
+			var i = parseInt($routeParams.message_index);
+			i++;
+			if(i >= $scope.messages.length){
+				i = 0;
+			}
 			
+			$scope.setMessage(i); 	
 		};
 		
 		$scope.setPrevMessage = function(){
-			$scope.setMessage($scope.message_index - 1);
+			var i = parseInt($routeParams.message_index);
+			if(i <= 0){
+				i = $scope.messages.length;
+			}
+			i--;
+			$scope.setMessage(i);
 		};
 		
-		// Set initial value
-		$scope.setMessage(0);
 		
 		//---------------- Timer functions -------------
 		var stop;
-		var message_timer = false;	
 		var update_at_in_seconds = new Date($scope.update_timer).getSeconds();
 		$scope.auto_update_in_seconds = ((Math.floor(Date.parse($scope.update_time) / 1000)) - (Math.floor(Date.now() / 1000)));
 
@@ -206,10 +148,9 @@ newCityPlayer.controller('newCityPlayerController',
 			$scope.auto_update_timer = time;
 		}
 		
-		function updateMessageTimer(){
-			if(message_timer){
+		function updateDuration(){
+			if(update_duration){
 				$scope.duration = $scope.duration - 1;			
-			
 				if($scope.duration == 0){
 		    		$scope.setNextMessage();
 		    	}	
@@ -220,62 +161,76 @@ newCityPlayer.controller('newCityPlayerController',
 			$scope.current_time = Date.now();	
 		}
 		
+		
+		var stop;
 
-		function startTimer(){
+		startTimer = function(){
 			stop = $interval(function(){
-				updateMessageTimer();
+				updateDuration();			
 				updateCurrentTime();							  
 				updateAutoUpdate();  	 
-				if($scope.update_time < $scope.current_time){			
+				if($scope.update_time <= $scope.current_time){			
 					window.location = window.location.pathname;
 				}
 			}, 1000);
-		}
+		};
 		
-		$scope.stopTimer = function(){
+		function stopTimer(){
 			if(angular.isDefined(stop)){
 				$interval.cancel(stop);
 				stop = undefined;
+				
 			}
 		};
 		
 		$scope.startMessageTimer = function(){
-			message_timer = true;
+			update_duration = true;
 			jQuery('#start_message_timer').hide();
 			jQuery('#stop_message_timer').show();
 		};
 		
 		$scope.stopMessageTimer = function(){
-			message_timer = false;
+			update_duration = false;
 			jQuery('#start_message_timer').show();
 			jQuery('#stop_message_timer').hide();
 		};
 		
 		$scope.$on('$destroy', function(){
-			$scope.stopTimer();
+			stopTimer();
 		});
 		
 		startTimer();
 		$scope.startMessageTimer();
 	
 		//----------------- Page Flipper Functions ----------
-		$scope.setPage = function(page_index){
-			$scope.stopMessageTimer();
-			$scope.setMessage($scope.message_index, page_index);
-		};
 		
-		$scope.setNextPage = function(){
-			$scope.setPage($scope.page_index + 1);
-		};
+		$scope.startPageNavigation = function (){
+        	
+    	};
 		
-		$scope.setPrevPage = function(){
-			$scope.setPage($scope.page_index - 1);
-		};
+		$scope.$on('$viewContentLoaded', function(){
+       		jQuery('.converted_page').hide();
+       		// $scope.startPageNavigation(); 
+    	});
 		
-		//------------ Ticker Functions ----------------
-		$scope.$on('ngRepeatFinished', function(e){
-			jQuery('#ticker').webTicker();	
-
-		});
-	});
+		// stopTimer();
+		// $scope.setPage = function(page_index){
+			// stopMessageTimer();
+			// $scope.setMessage($scope.message_index, page_index);
+		// };
+// 		
+		// $scope.setNextPage = function(){
+			// $scope.setPage($scope.page_index + 1);
+		// };
+// 		
+		// $scope.setPrevPage = function(){
+			// $scope.setPage($scope.page_index - 1);
+		// };
+// 		
+		// //------------ Ticker Functions ----------------
+		// $scope.$on('ngRepeatFinished', function(e){
+			// jQuery('#ticker').webTicker();	
+// 
+		// });
+	
 }]);

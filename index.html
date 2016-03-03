@@ -18,11 +18,128 @@
     <script src="js/vendor/jquery/jquery-web-ticker.js"></script>
     
 
-	<link rel="stylesheet" href="styles/app.css">	
+	<link rel="stylesheet" href="styles/app.css"></link>
+	<link rel="stylesheet" href="styles/client_styles/demo.css"></link>
 </head>
 
 <body> 
-    <div id="new_city_player" ng-app="newCityPlayer" ng-controller="newCityPlayerController" ng-view>
+    <div id="new_city_player" ng-app="newCityPlayer" ng-controller="newCityPlayerController">
+        <div class="app">
+    <div id="top_nav">
+        <div class="component_content">
+            <div class="nc_pre"></div>
+            <div class="nc_in"></div>
+            <div class="nc_post"></div>
+        </div>
+    </div>
+    
+    <div id="company_logo">
+        <div class="component_content">
+            <span class="nc_pre"></span>
+            <span class="nc_in"></span>
+            <span class="nc_post"></span>  
+        </div>
+    </div>
+    
+    <div id="current_time">
+        <div class="component_content">
+            <span class="nc_pre">current time</span>
+            <span class="nc_in">{{current_time | date:current_time_format}}</span>
+            <span class="nc_post"></span>
+        </div>          
+    </div>
+    
+    <div id="message_container" ng-view>
+        
+    </div>
+    
+    <div id="message_select">
+        <div class="component_content">
+            <span class="nc_pre"></span>
+            <span class="in click_control" ng-repeat="message in messages" ng-click="setMessage($index)">
+                <span class="message_name">
+                    {{message.name}}
+                </span>
+            </span>
+            <span class="nc_post"></span>    
+        </div>
+    </div>
+
+
+    
+    <div id="auto_update_timer">
+        <div class="component_content">
+            <span class="nc_pre">update player in</span>
+            <span class="nc_in">
+                {{auto_update_timer}}
+            </span>
+            <span class="nc_post"></span>
+        </div>
+    </div>
+    
+    <div id="update_time">
+        <div class="component_content">
+            <span class="nc_pre">next automatic player update at</span>
+            <span class="nc_in">
+                {{update_time | date:update_time_format}}
+            </span>
+            <span class="nc_post"></span>
+        </div>        
+    </div>
+    
+    <div id="message_navigation">
+        <div class="component_content">
+            <span class="nc_pre"></span>
+            <span id="prev_message" class="click_control nc_in" ng-click="setPrevMessage()">
+                <span class="control_text">prev</span>
+            </span>
+            <span class="nc_post"></span>
+            
+            <span class="nc_pre"></span>
+            <span id="next_message" class="click_control nc_in" ng-click="setNextMessage()">
+                <span class="control_text">next</span>
+            </span>    
+            <span class="component_label nc_post"></span>
+        </div>
+    </div>
+    
+
+    
+    <div id="page_navigation">
+        <div class="component_content">
+            <span class="nc_pre"></span>
+            <span  id="prev_page" class="click_control nc_in" ng-click="setPrevPage()">
+                <span class="control_text">back</span>
+            </span>
+            <span class="nc_post"></span>
+
+            <span class="nc_pre"></span>
+            <span id="next_page" class="click_control nc_in" ng-click="setNextPage()">
+                <span class="control_text">
+                    forward
+                </span>
+            </span>
+            <span class="nc_post"></span>
+        </div>
+    </div>
+    
+    <div id="ticker">
+        <div class="component_content">
+            <span class="nc_pre"></span>
+            <span class="nc_in">   
+                <ul id="ticker">
+                    <li ng-repeat="item in ticker" on-finish-render>
+                        {{item}}
+                    </li>
+                </ul>  
+            </span>
+            <span class="nc_post"></span>
+        </div>
+    </div>    
+</div>
+        
     </div>
 </body>
+
+
 </html>

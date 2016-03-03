@@ -6,9 +6,24 @@ body{
 	background-color: lightgrey;
 	padding: 40px;
 }
-/*--- Messages ---*/
+
+/*--- Message ---*/
+#message_name{
+	.nc_in{
+		font-size: 130px;
+	}
+}
+
 #message{
-	
+
+}
+
+
+
+#message_select{
+	.message_name{
+		display: block;
+	}	
 }
 /*--- Player Controls ---*/
 #message_navigation{
@@ -22,4 +37,10 @@ body{
 
 .click_control:hover{
 	color: green;	
+}
+
+//--- hide elements ---
+
+#auto_update_timer, #update_time, #ticker, #current_time .nc_pre{
+	display: none;
 }
