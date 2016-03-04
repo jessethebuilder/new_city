@@ -10,12 +10,17 @@ body{
 /*--- Message ---*/
 #message_name{
 	.nc_in{
-		font-size: 130px;
+		font-size: 90px;
 	}
 }
 
 #message{
+	height: 500px;
 
+	.ppt_image{
+		width: 300px;
+		height: 450px;
+	}
 }
 
 

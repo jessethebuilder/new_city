@@ -3,7 +3,7 @@
         "touch": "0",
         "weather": {
             "enabled": 1,
-            "forecast": "https:\/\/www.newcitymedia.net\/console\/weather\/forecast\/10001.json",
+            "forecast": "temp/forecast.json",
             "current": "https:\/\/www.newcitymedia.net\/console\/weather\/10001.json"
         },
         "custom_window_id": "5",

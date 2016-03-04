@@ -2,22 +2,39 @@
 // var data_url = 'temp/test_rss.xml';
 var data_url = 'temp/test.json';
 
+//--- Page Nav ---
+
+
+
 //--- Define Angular App
 var newCityPlayer = angular.module('newCityPlayer', ['ngRoute', 'ngSanitize']);
 
+newCityPlayer.directive('convertedImageContainer', function() {    
+    return {
+        link: function($scope, element, attrs) {
+            // Trigger when number of children changes,
+            // including by directives like ng-repeat
+            var watch = $scope.$watch(function() {
+                return element.children().length;
+            }, function() {
+                // Wait for templates to render
+                $scope.$evalAsync(function() {
+                	
+     				$scope.handleConvertedPages();               
+                });
+            });
+        },
+    };
+});
+
 newCityPlayer.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
-		// controller: 'newCityPlayerController',
-		// templateUrl: 'partials/player.html', 
-		// css: 'styles/dev.css'
 		redirectTo: '/demo/0'
 	}).when('/:client/:message_index', {
 		controller: 'newCityPlayerController',
 		templateUrl: 'partials/player.html'
 	}).when('/:client', {
 		redirectTo: '/demo/0'
-		// controller: 'newCityPlayerController',
-		// css: 'styles/' + $routeParams.client
 	}).otherwise({
 		redirectTo: '/'
 	});
@@ -45,7 +62,7 @@ newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 		var raw = $http({
 			method: 'GET',	
 			url: data_url,
-			cache: true
+			cache: false
 		});		
 		return $q.all({'raw':raw});
 	};
@@ -53,47 +70,34 @@ newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 	return ret;
 }]);
 
-// newCityPlayer.factory('MessageTimer')
-
 newCityPlayer.controller('newCityPlayerController', 
 						 ['$scope', '$routeParams', '$interval', '$http', '$sce', '$location', 'dateFilter', 'PlayerData',
 						 function($scope, $routeParams, $interval, $http, $sce, $location, dateFilter, PlayerData){
-		PlayerData.getData().then(function(data, status, headers, config){
+		PlayerData.getData().then(function(player_data, status){
 			// Get Message Data
+			
 			$http({
 				method: 'GET',
-				url: data.raw.data[0].feed_url,
-				cache: true
-			}).success(function(data, status, headers, config){			
+				url: player_data.raw.data[0].feed_url,
+				cache: false
+			}).success(function(data){			
 				$scope.messages = data;
 				var raw_message = $scope.messages[$routeParams.message_index];
 			 	$scope.message = $sce.trustAsHtml(raw_message.message);
 				$scope.duration = raw_message.duration;		
 				$scope.message_name = raw_message.name;	
-				
-			}).error(function(){
+			}).error(function(data, status){
 				console.log(status);
 			});
+			
 		});
-						
+		
+
+		
 		$scope.ticker = ['Ticker item 1', 'Some news that has some stuff', "dont' think I like Law and Order"];
 		$scope.update_time_format = 'MMMM dd, yyyy h:mm:ss a';
 		$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';
 		
-		// $scope.update_time = new Date(parseUpdateTime(player_data));
-		
-		//------------- Navigation Functions --------------
-		function setPageNavigation(){
-			var multi_page = $scope.messages[$scope.message_index].pages.length > 1 ? true : false;
-			
-			if(multi_page){
-				jQuery('#page_navigation').show();
-			} else {
-				jQuery('#page_navigation').hide();
-			}
-			
-			return multi_page;
-		}
 		
 		$scope.setMessage = function(index){
 			$location.path('/' + $routeParams.client + '/' + index);
@@ -161,7 +165,6 @@ newCityPlayer.controller('newCityPlayerController',
 			$scope.current_time = Date.now();	
 		}
 		
-		
 		var stop;
 
 		startTimer = function(){
@@ -178,8 +181,7 @@ newCityPlayer.controller('newCityPlayerController',
 		function stopTimer(){
 			if(angular.isDefined(stop)){
 				$interval.cancel(stop);
-				stop = undefined;
-				
+				stop = undefined;			
 			}
 		};
 		
@@ -203,34 +205,49 @@ newCityPlayer.controller('newCityPlayerController',
 		$scope.startMessageTimer();
 	
 		//----------------- Page Flipper Functions ----------
+		function setPageNumber(index){
+			$scope.current_page_number = index + 1;
+		}	
 		
-		$scope.startPageNavigation = function (){
-        	
-    	};
+		 $scope.showPage = function(index_modifier){
+			var pages = jQuery('.converted_page');
+			var index = normalizeIndex(firstVisibleIndex(pages) + index_modifier, pages);
+			$scope.stopMessageTimer();
+			jQuery(pages).hide();
+			jQuery(pages[index]).show();
+			setPageNumber(index);					
+		};
+			
+		$scope.showNextPage = function(){
+			$scope.showPage(1);			
+		};
 		
-		$scope.$on('$viewContentLoaded', function(){
-       		jQuery('.converted_page').hide();
-       		// $scope.startPageNavigation(); 
-    	});
+		$scope.showPrevPage = function(){
+			$scope.showPage(-1);
+		};
 		
-		// stopTimer();
-		// $scope.setPage = function(page_index){
-			// stopMessageTimer();
-			// $scope.setMessage($scope.message_index, page_index);
-		// };
-// 		
-		// $scope.setNextPage = function(){
-			// $scope.setPage($scope.page_index + 1);
-		// };
-// 		
-		// $scope.setPrevPage = function(){
-			// $scope.setPage($scope.page_index - 1);
-		// };
-// 		
-		// //------------ Ticker Functions ----------------
-		// $scope.$on('ngRepeatFinished', function(e){
-			// jQuery('#ticker').webTicker();	
-// 
-		// });
-	
+		$scope.handleConvertedPages = function(){
+			var pages = jQuery('.converted_page');
+			if(pages.length > 0){
+				pages.hide();
+				jQuery('#page_navigation').show();
+				setPageNumber(0);
+			} else {
+				jQuery('#page_navigation').hide();
+			}
+			
+			$scope.total_pages = pages.length;
+			
+			jQuery(pages).first().show();
+		};
+}]);
+
+newCityPlayer.controller('weatherForecastController', ['$http', 'PlayerData', function($http, PlayerData){
+	PlayerData.getData().then(function(player_data){;
+		$http.get(player_data.raw.data[0].weather.forecast).success(function(data, status){
+			
+		}).error(function(data, status){
+			console.log(status);
+		});
+	});
 }]);
