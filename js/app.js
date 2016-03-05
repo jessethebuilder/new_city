@@ -70,6 +70,13 @@ newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 	return ret;
 }]);
 
+// jfx
+newCityPlayer.directive('weatherForecasts', function(){
+	return{
+		templateUrl: 'partials/forecasts.html'
+	};
+});
+
 newCityPlayer.controller('newCityPlayerController', 
 						 ['$scope', '$routeParams', '$interval', '$http', '$sce', '$location', 'dateFilter', 'PlayerData',
 						 function($scope, $routeParams, $interval, $http, $sce, $location, dateFilter, PlayerData){
@@ -242,9 +249,13 @@ newCityPlayer.controller('newCityPlayerController',
 		};
 }]);
 
-newCityPlayer.controller('weatherForecastController', ['$http', 'PlayerData', function($http, PlayerData){
+newCityPlayer.controller('weatherForecastController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
 	PlayerData.getData().then(function(player_data){;
 		$http.get(player_data.raw.data[0].weather.forecast).success(function(data, status){
+			$scope.forecasts = data.forecast.simpleforecast.forecastday;
+			console.log($scope.forecasts);
+			
+			
 			
 		}).error(function(data, status){
 			console.log(status);
