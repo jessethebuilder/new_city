@@ -1,5 +1,5 @@
 body{
-	background-color: black;
+	background-color: white;
 }
 /*--- Player ---*/
 #new_city_player{
@@ -8,10 +8,8 @@ body{
 }
 
 /*--- Message ---*/
-#message_name{
-	.nc_in{
-		font-size: 90px;
-	}
+h1{
+	font-size: 90px;
 }
 
 #message{
@@ -36,7 +34,7 @@ body{
 	font-size: 32px;
 }
 
-.component_content{
+.nc_component{
 	font-size: 40px;
 }
 
@@ -46,6 +44,19 @@ body{
 
 //--- hide elements ---
 
-#auto_update_timer, #update_time, #ticker, #current_time .nc_pre{
+#auto_update_timer, #update_time, #ticker{
 	display: none;
 }
+
+//--- Weather ---
+
+#weather_forecast{
+  
+.forecast_days{
+  .forecast_day{
+    display: inline-block;
+  } 
+  .high_low{
+    display: inline-block;
+  }
+}}

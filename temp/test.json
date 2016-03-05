@@ -4,15 +4,15 @@
         "weather": {
             "enabled": 1,
             "forecast": "temp/forecast.json",
-            "current": "https:\/\/www.newcitymedia.net\/console\/weather\/10001.json"
+            "current": "temp/current_weather.json"
         },
         "custom_window_id": "5",
         "feed_url": "temp/feed.json"
     },
     {
         "scrollers": [
-            "https:\/\/www.newcitymedia.net\/console\/get_scroller_items.php?player_id=100&scroller_id=1222",
-            "https:\/\/www.newcitymedia.net\/console\/get_scroller_items.php?player_id=100&scroller_id=1754"
+            "temp/ticker_1.json",
+            "temp/ticker_2.json"
         ]
     }
 ]

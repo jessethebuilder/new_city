@@ -1,5 +1,5 @@
 body {
-  background-color: black; }
+  background-color: white; }
 
 /*--- Player ---*/
 #new_city_player {
@@ -7,7 +7,7 @@ body {
   padding: 40px; }
 
 /*--- Message ---*/
-#message_name .nc_in {
+h1 {
   font-size: 90px; }
 
 #message {
@@ -24,13 +24,18 @@ body {
   margin-top: 20px;
   font-size: 32px; }
 
-.component_content {
+.nc_component {
   font-size: 40px; }
 
 .click_control:hover {
   color: green; }
 
-#auto_update_timer, #update_time, #ticker, #current_time .nc_pre {
+#auto_update_timer, #update_time, #ticker {
   display: none; }
+
+#weather_forecast .forecast_days .forecast_day {
+  display: inline-block; }
+#weather_forecast .forecast_days .high_low {
+  display: inline-block; }
 
 /*# sourceMappingURL=demo.css.map */

@@ -1,37 +1,23 @@
-<div ng-cloak>
-<div id="message_name">
-    <div class="component_content">
-        <span class="nc_pre"></span>
-        <span class="nc_in">
-            {{message_name}}
-        </span>
-        <span class="nc_post"></span>    
-    </div> 
-</div>
+<h1 id="message_name">
+    <span class="nc_component">
+        {{message_name}}    
+    </span>
+</h1> 
 
 <div id="message">
-    <div class="component_content">
-        <span class="nc_pre"></span>
-        <span class="nc_in">
-            <div ng-bind-html="message" converted_image_container></div>
-        </span>
-        <span class="nc_post"></span>    
-    </div> 
+    <div class="nc_component">
+        <div ng-bind-html="message" converted_image_container></div>
+    </div>
 </div>
 
 <div id="page_navigation">
-    <div class="component_content">
-        <span class="nc_pre"></span>
+    <div class="nc_component">      
+        <span  id="prev_page" class="click_control" ng-click="showPrevPage()">
+            <<
+        </span>
         
-        <span class="nc_in control_text">
-            <span  id="prev_page" class="click_control" ng-click="showPrevPage()">
-                <<
-            </span>
-            <span id="page_number">
-                <span class="page_number_label">
-                    page
-                </span>
-                
+        <span id="page_number">
+            <span class="nc_component">
                 <span id="current_page_number">
                     {{current_page_number}}
                 </span>
@@ -42,67 +28,50 @@
                 
                 <span id="total_pages">
                     {{total_pages}} 
-                </span>
-                     
-                <!-- </span> -->
+                </span>             
             </span>
-            
-           <span id="next_page" class="click_control" ng-click="showNextPage()">
-                >>
-            </span>
-
-        <span class="nc_post"></span>
+       </span>          
+        
+        <span id="next_page" class="click_control" ng-click="showNextPage()">
+            >>
+        </span>
     </div>
 </div>
 
-    <div id="duration">
-        <div class="component_content">
-            <span class="nc_pre">next message in</span>
-            <span class="nc_in">{{duration}}</span>
-            <span class="nc_post">seconds</span>
-        </div>
-    </div>
+<div id="duration" class="nc_component">
+    <span class="component_label pre">next message in</span>
+    <span class="nc_component">{{duration}}</span>
+</div>
 
 <div id="timer_controls">
-    <div class="component_content">
-        <span class="nc_pre"></span>
-            <span id="stop_message_timer" class="click_control nc_in" ng-click="stopMessageTimer()">
-                <span class="component_label">stop</span>
-            </span>
-        <span class="nc_post"></span>
-
-        <span class="nc_pre"></span>   
-            <span id="start_message_timer" class="click_control nc_in" ng-click="startMessageTimer()">
-                <span class="control_text">start</span>
-            </span>
-        <span class="component_label nc_post"></span>
+    <div class="nc_component">
+        <span id="stop_message_timer" class="click_control" ng-click="stopMessageTimer()">
+            <span class="component_label">stop</span>
+        </span>
+       
+        <span id="start_message_timer" class="click_control" ng-click="startMessageTimer()">
+            <span class="control_text">start</span>
+        </span>
     </div>
 </div>
     
-    <div id="message_select">
-        <div class="component_content">
-            <span class="nc_pre"></span>
-            <span class="in click_control" ng-repeat="message in messages" ng-click="setMessage($index)">
-                <span class="message_name">
-                    {{message.name}}
-                </span>
+<div id="message_select">
+    <div class="nc_component">
+        <span class="click_control" ng-repeat="message in messages" ng-click="setMessage($index)">
+            <span class="message_name">
+                {{message.name}}
             </span>
-            <span class="nc_post"></span>    
-        </div>
+        </span>
     </div>
+</div>
 
-    <div id="message_navigation">
-        <div class="component_content">
-            <span class="nc_pre"></span>
-            <span id="prev_message" class="click_control nc_in" ng-click="setPrevMessage()">
-                <span class="control_text">prev</span>
-            </span>
-            <span class="nc_post"></span>
-            
-            <span class="nc_pre"></span>
-            <span id="next_message" class="click_control nc_in" ng-click="setNextMessage()">
-                <span class="control_text">next</span>
-            </span>    
-            <span class="component_label nc_post"></span>
-        </div>
+<div id="message_navigation">
+    <div class="nc_component">
+        <span id="prev_message" class="click_control" ng-click="setPrevMessage()">
+            <span class="control_text">prev</span>
+        </span>
+        <span id="next_message" class="click_control" ng-click="setNextMessage()">
+            <span class="control_text">next</span>
+        </span>    
     </div>
+</div>

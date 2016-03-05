@@ -5,6 +5,8 @@
     
     
     <script src="js/vendor/jquery/jquery-2.2.0.js"></script>
+   
+    <script src="js/vendor/web_ticker.js"></script>
     
     <script src="js/utilities.js"></script>
     
@@ -15,86 +17,62 @@
     
     <script src="js/app.js"></script>
 
-    <script src="js/vendor/jquery/jquery-web-ticker.js"></script>
-    
-
+   
     <link rel="stylesheet" href="styles/app.css"></link>
-    <link rel="stylesheet" href="styles/client_styles/demo.css"></link>
+    <link rel="stylesheet" href="styles/clients/demo.css"></link>
 </head>
 
 <body> 
-    <div id="new_city_player" ng-app="newCityPlayer">
-        <div class="app">
-    
-    
-        <div id="company_logo">
-            <div class="component_content">
-                <span class="nc_pre"></span>
-                <span class="nc_in"></span>
-                <span class="nc_post"></span>  
-            </div>
-        </div>
-    
-        <div id="current_time">
-            <div class="component_content">
-                <span class="nc_pre">current time</span>
-                <span class="nc_in">{{current_time | date:current_time_format}}</span>
-                <span class="nc_post"></span>
-            </div>          
-        </div>
+
+<div id="new_city_player" ng-app="newCityPlayer">       
+    <div id="company_logo" class="nc_component">
     </div>
     
+    <div id="clock" ng-controller="clockController">
+        <div id="current_time" class="nc_component">
+            {{current_time | date:current_time_format}}
+        </div>
     
-    <div id="message_container" ng-view>
+    
+        <div id="auto_update_timer" class="nc_component">
+            <span class="component_label pre">update player in</span>
+            {{auto_update_timer}}            
+        </div>
         
-    </div>
-    
-
-
-    <!-- todo -->
-    <div id="auto_update_timer">
-        <div class="component_content">
-            <span class="nc_pre">update player in</span>
-            <span class="nc_in">
-                {{auto_update_timer}}
-            </span>
-            <span class="nc_post"></span>
+        <div id="update_time" class="nc_component">
+           <span class="component_label pre">next automatic player update at</span>
+           {{update_time | date:update_time_format}}         
         </div>
     </div>
     
-    <div id="update_time">
-        <div class="component_content">
-            <span class="nc_pre">next automatic player update at</span>
-            <span class="nc_in">
-                {{update_time | date:update_time_format}}
-            </span>
-            <span class="nc_post"></span>
-        </div>        
-    </div>
-    <!-- end todo -->
     
-    <div id="weatherForecast" ng-controller="weatherForecastController" weather-forecasts>
+    <div id="message_container" ng-view></div> 
+
+    <div id="weather" ng-controller="currentWeatherController">
+        <div current-weather></div>
+    </div>
+
+    <div id="weather_forecast" ng-controller="weatherForecastController">
+        <div weather-forecasts></div>
+    </div>
      
-    </div>
-    
-    
-    <div id="ticker">
-        <div class="component_content">
-            <span class="nc_pre"></span>
-            <span class="nc_in">   
-                <ul id="ticker">
-                    <li ng-repeat="item in ticker" on-finish-render>
-                        {{item}}
-                    </li>
-                </ul>  
-            </span>
-            <span class="nc_post"></span>
+    <div id="tickers" ng-controller="tickerController">
+        <div id="ticker_1" class="nc_component nc_ticker">
+            <ul ticker-list>
+                <li ng-repeat="tick in ticker_1">
+                    {{tick}}
+                </li>
+            </ul>
         </div>
-    </div>    
-</div>
         
-    </div>
+        <div id="ticker_2" class="nc_component nc_ticker">
+            <ul ticker-list>
+                <li ng-repeat="tick in ticker_2">
+                    {{tick}}
+                </li>
+            </ul>
+        </div>
+    </div>   
+</div>  
 </body>
-
-
 </html>

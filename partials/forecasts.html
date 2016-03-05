@@ -1,15 +1,48 @@
+<h3 class="forcast_local">
+    {{local}}    
+</h3>
+
 <div class="forecast_days">
-    <div class="forecast_day" ng-repeat="forecast in forecasts">
-        <div class="temperature">
-            <div class="high">
-             <div class="celsius">
+    <div class="forecast_day nc_component" ng-repeat="forecast in forecasts">    
+        <div class="date">
+            {{forecast.date.month}} / {{forecast.date.day}}
+        </div>
+        
+        <div class="graphic">
+            <img ng-src="{{forecast.icon_url}}">
+        </div>
+        
+        <div class="conditions">
+            {{forecast.conditions}}
+        </div>
+        
+        <div class="temperature nc_component">          
+            <div class="high_low high">
+                <div class="component_label">
+                    High
+                </div>
+                <div class="metric">
                     {{forecast.high.celsius}} &#8451
                 </div>
-            
+                
                 <div class="fahrenheit">
                     {{forecast.high.fahrenheit}}  &#8457
                 </div>
             </div>
-        </div>        
+                
+            <div class="high_low low">
+                <div class="component_label">
+                    Low
+                </div>
+                <div class="metric">
+                    {{forecast.low.celsius}} &#8451
+                </div>
+            
+                <div class="fahrenheit">
+                    {{forecast.low.fahrenheit}} &#8457
+                </div>
+            </div>
+        </div>
+   
     </div>
 </div> 

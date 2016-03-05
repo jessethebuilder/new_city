@@ -1,10 +1,5 @@
 //--- Config Vars ---
-// var data_url = 'temp/test_rss.xml';
 var data_url = 'temp/test.json';
-
-//--- Page Nav ---
-
-
 
 //--- Define Angular App
 var newCityPlayer = angular.module('newCityPlayer', ['ngRoute', 'ngSanitize']);
@@ -70,19 +65,10 @@ newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 	return ret;
 }]);
 
-// jfx
-newCityPlayer.directive('weatherForecasts', function(){
-	return{
-		templateUrl: 'partials/forecasts.html'
-	};
-});
-
 newCityPlayer.controller('newCityPlayerController', 
 						 ['$scope', '$routeParams', '$interval', '$http', '$sce', '$location', 'dateFilter', 'PlayerData',
 						 function($scope, $routeParams, $interval, $http, $sce, $location, dateFilter, PlayerData){
-		PlayerData.getData().then(function(player_data, status){
-			// Get Message Data
-			
+		PlayerData.getData().then(function(player_data, status){		
 			$http({
 				method: 'GET',
 				url: player_data.raw.data[0].feed_url,
@@ -97,14 +83,7 @@ newCityPlayer.controller('newCityPlayerController',
 				console.log(status);
 			});
 			
-		});
-		
-
-		
-		$scope.ticker = ['Ticker item 1', 'Some news that has some stuff', "dont' think I like Law and Order"];
-		$scope.update_time_format = 'MMMM dd, yyyy h:mm:ss a';
-		$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';
-		
+		});		
 		
 		$scope.setMessage = function(index){
 			$location.path('/' + $routeParams.client + '/' + index);
@@ -132,56 +111,22 @@ newCityPlayer.controller('newCityPlayerController',
 		
 		//---------------- Timer functions -------------
 		var stop;
-		var update_at_in_seconds = new Date($scope.update_timer).getSeconds();
-		$scope.auto_update_in_seconds = ((Math.floor(Date.parse($scope.update_time) / 1000)) - (Math.floor(Date.now() / 1000)));
 
-		function updateAutoUpdate(){
-			$scope.auto_update_in_seconds = $scope.auto_update_in_seconds - 1;
-			
-			$scope.auto_update_timer = $scope.auto_update_in_seconds;
-			
-			var n = $scope.auto_update_in_seconds; 
-			var h = Math.floor(n / 3600);
-			var m = Math.floor((n % 3600) / 60);
-			var s = n - (h * 3600 + m * 60);
-			
-			s = s < 10 ? '0' + s : s;
-			
-			var time;
-			
-			if(h === 0){
-				time = m + ":" + s;
-			} else {
-				m = m < 10 ? '0' + m : m;
-				time = h + ":" + m + ":" + s;
-			}
-			
-			$scope.auto_update_timer = time;
-		}
-		
 		function updateDuration(){
+				console.log($scope.duration);
 			if(update_duration){
 				$scope.duration = $scope.duration - 1;			
+			
 				if($scope.duration == 0){
+					console.log('---NEXT----');
 		    		$scope.setNextMessage();
 		    	}	
 			} 
 		}
-		
-		function updateCurrentTime(){	
-			$scope.current_time = Date.now();	
-		}
-		
-		var stop;
-
+			
 		startTimer = function(){
 			stop = $interval(function(){
 				updateDuration();			
-				updateCurrentTime();							  
-				updateAutoUpdate();  	 
-				if($scope.update_time <= $scope.current_time){			
-					window.location = window.location.pathname;
-				}
 			}, 1000);
 		};
 		
@@ -249,16 +194,139 @@ newCityPlayer.controller('newCityPlayerController',
 		};
 }]);
 
+newCityPlayer.directive('weatherForecasts', function(){
+	return{
+		templateUrl: 'partials/forecasts.html'
+	};
+});
+
 newCityPlayer.controller('weatherForecastController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
 	PlayerData.getData().then(function(player_data){;
-		$http.get(player_data.raw.data[0].weather.forecast).success(function(data, status){
+		$http.get(player_data.raw.data[0].weather.forecast).success(function(data, status){		
 			$scope.forecasts = data.forecast.simpleforecast.forecastday;
-			console.log($scope.forecasts);
-			
-			
-			
+			$scope.local = $scope.forecasts[0].date.tz_long;
 		}).error(function(data, status){
 			console.log(status);
 		});
 	});
+}]);
+
+newCityPlayer.directive('currentWeather', function(){
+	return{
+		templateUrl: 'partials/weather.html'
+	};	
+});
+
+newCityPlayer.controller('currentWeatherController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
+	PlayerData.getData().then(function(player_data){
+		$http.get(player_data.raw.data[0].weather.current).success(function(data){
+			$scope.weather = data.current_observation;
+		}).error(function(data, status){
+			console.log(status);
+		});	
+	});
+}]);
+
+newCityPlayer.directive('tickerList', function(){  
+    return {
+        link: function($scope, element, attrs) {
+            // Trigger when number of children changes,
+            // including by directives like ng-repeat
+            var watch = $scope.$watch(function() {
+                // return $scope.startTicker(element);            	
+            });
+        },
+    };
+});
+
+newCityPlayer.controller('tickerController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
+	PlayerData.getData().then(function(player_data, status){
+		// console.log(player_data);
+		var scrollers = player_data.raw.data[1].scrollers;
+		
+		$http.get(scrollers[0]).success(function(data){
+			$scope.ticker_1 = data;
+		}).error(function(data, status){
+			console.log(status);
+		});
+		
+		$http.get(scrollers[1]).success(function(data){
+			$scope.ticker_2 = data;
+		}).error(function(data, status){
+			console.log(status);
+		});
+	});	
+	
+	$scope.startTicker = function(selector){
+		jQuery(selector).webTicker();
+	};
+}]);
+
+newCityPlayer.controller('clockController', ['$scope', '$interval', '$http', 'PlayerData', function($scope, $interval, $http, PlayerData){
+			// PlayerData.getData().then(function(player_data, status){
+			// // Get Message Data
+				// $http.get(...).success(function(data){			
+					// $scope.update_timer = from Player data
+				// }).error(function(data, status){
+					// console.log(status);
+				// });
+			// });		
+	
+	//var update_at_in_seconds = new Date($scope.update_timer).getSeconds();
+	//$scope.auto_update_in_seconds = ((Math.floor(Date.parse($scope.update_time) / 1000)) - (Math.floor(Date.now() / 1000)));
+
+	$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';		
+
+	function updateCurrentTime(){	
+		$scope.current_time = Date.now();	
+	}
+	
+	function updateAutoUpdate(){
+		$scope.auto_update_in_seconds = $scope.auto_update_in_seconds - 1;
+		
+		$scope.auto_update_timer = $scope.auto_update_in_seconds;
+		
+		var n = $scope.auto_update_in_seconds; 
+		var h = Math.floor(n / 3600);
+		var m = Math.floor((n % 3600) / 60);
+		var s = n - (h * 3600 + m * 60);
+		
+		s = s < 10 ? '0' + s : s;
+		
+		var time;
+		
+		if(h === 0){
+			time = m + ":" + s;
+		} else {
+			m = m < 10 ? '0' + m : m;
+			time = h + ":" + m + ":" + s;
+		}
+		
+		$scope.auto_update_timer = time;
+	}
+	
+	var stop;
+
+	startTimer = function(){
+		stop = $interval(function(){
+			updateCurrentTime();						
+			updateAutoUpdate();	  
+			if($scope.update_time <= $scope.current_time){			
+				window.location = window.location.pathname;
+			}
+		}, 1000);
+	};
+	
+	function stopTimer(){
+		if(angular.isDefined(stop)){
+			$interval.cancel(stop);
+			stop = undefined;			
+		}
+	};
+	
+	$scope.$on('$destroy', function(){
+		stopTimer();
+	});
+	
+	startTimer();
 }]);
