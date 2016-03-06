@@ -1,19 +1,19 @@
-<h1 id="message_name">
+<div id="message_name"> 
     <span class="nc_component">
         {{message_name}}    
     </span>
-</h1> 
+</div> 
 
 <div id="message">
     <div class="nc_component">
-        <div ng-bind-html="message" converted_image_container></div>
+        <div ng-bind-html="message" message></div>
     </div>
 </div>
 
 <div id="page_navigation">
     <div class="nc_component">      
         <span  id="prev_page" class="click_control" ng-click="showPrevPage()">
-            <<
+            <img ng-src="images/glyphs/page_up.png" width="50pt"></img>
         </span>
         
         <span id="page_number">
@@ -33,7 +33,7 @@
        </span>          
         
         <span id="next_page" class="click_control" ng-click="showNextPage()">
-            >>
+            <img ng-src="images/glyphs/page_down.png" width="50pt"></img>
         </span>
     </div>
 </div>

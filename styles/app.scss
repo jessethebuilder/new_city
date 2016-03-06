@@ -1,12 +1,19 @@
 #new_city_player{
+  position: relative;
   width: 1920px;
   height: 1080px;
 }
 
-.converted_page .ppt_image{
-  width: 100%;
+#message_container{
+  position: relative; 
 }
 
 .click_control:hover{
   cursor: pointer;
 }
+
+.converted_page{
+  // display: none;
+}
+
+

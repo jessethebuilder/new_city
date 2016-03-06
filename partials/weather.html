@@ -1,6 +1,6 @@
-<h3 class="weather_local">
+<div class="weather_local">
     {{weather.observation_location.full}}
-</h3>
+</div>
 
 <div class="weather_image nc_component">
     <img ng-src="{{weather.icon_url}}"></img>
@@ -15,7 +15,7 @@
     <div class="feels_like">
         <span class="component_label pre">feels like</span> {{weather.feelslike_c}} &#8451
     </div>
-</div>"
+</div>
 
 <div class="imperial nc_component">
     {{weather.temp_f}} &#8457
@@ -44,7 +44,6 @@
         <span class="component_label pre">wind</span> 
             {{weather.wind_mph}}
         <span class="component_label post">mph</span>
-        
         <span class="wind wind_direction nc_component">
             <span class="component_label pre">out of</span>
             {{weather.wind_dir}}

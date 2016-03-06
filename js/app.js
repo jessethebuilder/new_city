@@ -4,51 +4,19 @@ var data_url = 'temp/test.json';
 //--- Define Angular App
 var newCityPlayer = angular.module('newCityPlayer', ['ngRoute', 'ngSanitize']);
 
-newCityPlayer.directive('convertedImageContainer', function() {    
-    return {
-        link: function($scope, element, attrs) {
-            // Trigger when number of children changes,
-            // including by directives like ng-repeat
-            var watch = $scope.$watch(function() {
-                return element.children().length;
-            }, function() {
-                // Wait for templates to render
-                $scope.$evalAsync(function() {
-                	
-     				$scope.handleConvertedPages();               
-                });
-            });
-        },
-    };
-});
 
 newCityPlayer.config(['$routeProvider', function($routeProvider){
 	$routeProvider.when('/', {
-		redirectTo: '/demo/0'
-	}).when('/:client/:message_index', {
-		controller: 'newCityPlayerController',
-		templateUrl: 'partials/player.html'
+		redirectTo: '/demo'
 	}).when('/:client', {
-		redirectTo: '/demo/0'
+		// controller: 'newCityPlayerController',
+		// templateUrl: 'partials/message.html',
+		// css: 'styles/clients/demo.css'
 	}).otherwise({
 		redirectTo: '/'
 	});
 }]);
 
-function parseMessageData(messageData){
-	var arr = [];
-	for(var i = 0; i < messageData.length; i++){
-		m = messageData[i];
-		
-		arr.push({
-			message: m.message,
-			name: m.name,
-			duration: m.duration,
-			transition: m.transition
-		});
-	}
-	return arr;
-}
 
 newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 	var ret = {};
@@ -65,9 +33,46 @@ newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 	return ret;
 }]);
 
-newCityPlayer.controller('newCityPlayerController', 
-						 ['$scope', '$routeParams', '$interval', '$http', '$sce', '$location', 'dateFilter', 'PlayerData',
-						 function($scope, $routeParams, $interval, $http, $sce, $location, dateFilter, PlayerData){
+
+
+newCityPlayer.directive('messageContainer', function() {    
+    return {
+    	templateUrl: 'partials/message.html',
+        link: function($scope, element, attrs) {
+            // Trigger when number of children changes,
+            // including by directives like ng-repeat
+            var watch = $scope.$watch(function() {
+                return element.children().length;
+            }, function() {
+                // Wait for templates to render
+                $scope.$evalAsync(function() {
+   				// $scope.startMessage();               
+                });
+            });
+        },
+    };
+});
+
+newCityPlayer.directive('message', function() {    
+    return {
+        link: function($scope, element, attrs) {
+            // Trigger when number of children changes,
+            // including by directives like ng-repeat
+            var watch = $scope.$watch(function() {
+                return element.children().length;
+            }, function() {
+                // Wait for templates to render
+                $scope.$evalAsync(function() {
+   				$scope.pageNavigation();               
+                });
+            });
+        },
+    };
+});
+
+newCityPlayer.controller('messageController', 
+						 ['$scope', '$interval', '$http', '$sce', '$location', 'dateFilter', 'PlayerData',
+						 function($scope, $interval, $http, $sce, $location, dateFilter, PlayerData){
 		PlayerData.getData().then(function(player_data, status){		
 			$http({
 				method: 'GET',
@@ -75,10 +80,8 @@ newCityPlayer.controller('newCityPlayerController',
 				cache: false
 			}).success(function(data){			
 				$scope.messages = data;
-				var raw_message = $scope.messages[$routeParams.message_index];
-			 	$scope.message = $sce.trustAsHtml(raw_message.message);
-				$scope.duration = raw_message.duration;		
-				$scope.message_name = raw_message.name;	
+				$scope.message_index = 0;
+				$scope.setMessage($scope.message_index);
 			}).error(function(data, status){
 				console.log(status);
 			});
@@ -86,11 +89,18 @@ newCityPlayer.controller('newCityPlayerController',
 		});		
 		
 		$scope.setMessage = function(index){
-			$location.path('/' + $routeParams.client + '/' + index);
+			$scope.message_index = index;
+			$scope.raw_message = $scope.messages[$scope.message_index];
+			$scope.message = $sce.trustAsHtml($scope.raw_message.message);
+			$scope.message_name = $scope.raw_message.name;	
+			$scope.duration = $scope.raw_message.duration;
+			$scope.transition = $scope.raw_message.transition;
+			
+			$scope.startMessage();
 		};
 		
 		$scope.setNextMessage = function(){
-			var i = parseInt($routeParams.message_index);
+			var i = parseInt($scope.message_index);
 			i++;
 			if(i >= $scope.messages.length){
 				i = 0;
@@ -100,7 +110,7 @@ newCityPlayer.controller('newCityPlayerController',
 		};
 		
 		$scope.setPrevMessage = function(){
-			var i = parseInt($routeParams.message_index);
+			var i = parseInt($scope.message_index);
 			if(i <= 0){
 				i = $scope.messages.length;
 			}
@@ -113,12 +123,10 @@ newCityPlayer.controller('newCityPlayerController',
 		var stop;
 
 		function updateDuration(){
-				console.log($scope.duration);
 			if(update_duration){
 				$scope.duration = $scope.duration - 1;			
 			
 				if($scope.duration == 0){
-					console.log('---NEXT----');
 		    		$scope.setNextMessage();
 		    	}	
 			} 
@@ -178,8 +186,12 @@ newCityPlayer.controller('newCityPlayerController',
 			$scope.showPage(-1);
 		};
 		
-		$scope.handleConvertedPages = function(){
+		$scope.pageNavigation = function(){
 			var pages = jQuery('.converted_page');
+			
+			// jQuery(pages).css('display', 'none');	
+			// jQuery(pages).first().css('display', 'block');
+			
 			if(pages.length > 0){
 				pages.hide();
 				jQuery('#page_navigation').show();
@@ -191,6 +203,41 @@ newCityPlayer.controller('newCityPlayerController',
 			$scope.total_pages = pages.length;
 			
 			jQuery(pages).first().show();
+		};
+		
+
+		
+		//--- Transitions --- 
+		
+		var fadeInMessage = function(){
+			jQuery('#message').css({
+				opacity: 0,
+				visibility: 'visible'
+			}).animate({
+				opacity: 1.0	
+			}, 1500, function(){
+				// $scope.pageNavigation();
+			});
+			
+								
+
+		};
+		
+		$scope.messageTransition = function(){
+			if(typeof $scope.transition != 'undefined'){
+				switch($scope.transition){
+					case 'fadein':		
+						fadeInMessage();
+				}
+			}
+			
+		};
+		
+		$scope.startMessage = function(){
+			jQuery('#message').css('visibility', 'hidden');
+			
+			$scope.messageTransition();
+			// $scope.pageNavigation();		
 		};
 }]);
 
@@ -227,16 +274,36 @@ newCityPlayer.controller('currentWeatherController', ['$scope', '$http', 'Player
 	});
 }]);
 
-newCityPlayer.directive('tickerList', function(){  
-    return {
+
+
+newCityPlayer.directive('tickers', function(){  
+	  return {
+        templateUrl: 'partials/tickers.html',
+        
         link: function($scope, element, attrs) {
             // Trigger when number of children changes,
             // including by directives like ng-repeat
-            var watch = $scope.$watch(function() {
-                // return $scope.startTicker(element);            	
-            });
+            // var watch = $scope.$watch(function() {
+                // return element.children().length;
+            // }, function() {
+                // Wait for templates to render
+                // $scope.$evalAsync(function() {
+     				// $scope.startTickers();               
+                // });
+            // });
         },
     };
+	
+	
+    // return {
+    	// link: function($scope, element, attrs) {
+            // Trigger when number of children changes,
+            // including by directives like ng-repeat
+            // var watch = $scope.$watch(function() {
+                // $scope.startTickers();            	
+            // });
+        // },
+    // };
 });
 
 newCityPlayer.controller('tickerController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
@@ -257,9 +324,10 @@ newCityPlayer.controller('tickerController', ['$scope', '$http', 'PlayerData', f
 		});
 	});	
 	
-	$scope.startTicker = function(selector){
-		jQuery(selector).webTicker();
+	$scope.startTickers = function(){
+		jQuery('#tickers').find('.ticker_list').webTicker();
 	};
+	
 }]);
 
 newCityPlayer.controller('clockController', ['$scope', '$interval', '$http', 'PlayerData', function($scope, $interval, $http, PlayerData){

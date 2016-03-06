@@ -1,11 +1,11 @@
-<h3 class="forcast_local">
+<div class="forecast_local">
     {{local}}    
-</h3>
+</div>
 
 <div class="forecast_days">
     <div class="forecast_day nc_component" ng-repeat="forecast in forecasts">    
         <div class="date">
-            {{forecast.date.month}} / {{forecast.date.day}}
+            {{forecast.date.month}}/{{forecast.date.day}}
         </div>
         
         <div class="graphic">
@@ -25,8 +25,8 @@
                     {{forecast.high.celsius}} &#8451
                 </div>
                 
-                <div class="fahrenheit">
-                    {{forecast.high.fahrenheit}}  &#8457
+                <div class="imperial">
+                    {{forecast.high.fahrenheit}} &#8457
                 </div>
             </div>
                 
@@ -38,7 +38,7 @@
                     {{forecast.low.celsius}} &#8451
                 </div>
             
-                <div class="fahrenheit">
+                <div class="imperial">
                     {{forecast.low.fahrenheit}} &#8457
                 </div>
             </div>
