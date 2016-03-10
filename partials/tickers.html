@@ -1,23 +1,23 @@
 <div class="nc_component nc_ticker">
-    <ul class="ticker_list js-hidden" id="ticker1">
-        <li class="news-item">Tick 1</li>
-        <li class="news-item">Tick 2</li> 
-        <!-- <li ng-repeat="tick in ticker_1"> -->
+    <ul class="ticker_list" id="ticker1" ticker>
+        <!-- <li ng-repeat="tick in ticker1"> -->
             <!-- {{tick}} -->
         <!-- </li> -->
-    </ul>
-</div>
-
-<div id="ticker_2" class="nc_component nc_ticker">
-    <ul class="ticker_list">
-        <li ng-repeat="tick in ticker_2">
-            {{tick}}
+        
+        <li>
+            Tick
+        </li>
+        
+        <li>
+            Tick2
         </li>
     </ul>
 </div>
 
-<script>
-    jQuery(function(){
-        // jQuery('#ticker1').ticker();
-    });
-</script>
+<!-- <div id="ticker2" class="nc_component nc_ticker">
+    <ul class="ticker_list">
+        <li ng-repeat="tick in ticker2">
+            {{tick}}
+        </li>
+    </ul>
+</div> -->

@@ -3,8 +3,8 @@
 <head>
     <title>New City Media - Player</title>
     
-    
     <script src="js/vendor/jquery/jquery-2.2.0.js"></script>
+    <script src="js/vendor/jquery/jquery-web-ticker.js"></script>
     
     <script src="js/utilities.js"></script>
     
@@ -12,48 +12,32 @@
     <script src="js/vendor/angular/angular-route.js"></script>
     <script src="js/vendor/angular/angular-sanitize.js"></script>
     <script src="js/vendor/angular/angular-css.js"></script>
-    
-    <script src="js/vendor/jquery/jquery.ticker.js"></script>
-    <link rel="styles/vendor/ticker-style.css"></link>
-    
+        
     <script src="js/app.js"></script>
 
+   <link rel="stylesheet" href="styles/vendor/bs/css/bootstrap.css"></link>
    
-    <link rel="stylesheet" href="styles/app.css"></link>
-    <link rel="stylesheet" href="styles/clients/demo.css"></link>
+   <link rel="stylesheet" href="styles/app.css"></link>
 </head>
 
 <body> 
-
 <div id="new_city_player" ng-app="newCityPlayer">       
     <div id="company_logo" class="nc_component">
     </div>
     
-    <div id="clock" ng-controller="clockController">
-        <div id="current_time" class="nc_component">
+    <div id="current_time" ng-controller="clockController">
+        <div class="nc_component">
             {{current_time | date:current_time_format}}
         </div>
-    
-    
-        <div id="auto_update_timer" class="nc_component">
-            <span class="component_label pre">update player in</span>
-            {{auto_update_timer}}            
-        </div>
-        
-        <div id="update_time" class="nc_component">
-           <span class="component_label pre">next automatic player update at</span>
-           {{update_time | date:update_time_format}}         
-        </div>
     </div>
-    
-    
-    <div id="message_container" ng-controller="messageController" message-container></div> 
+   
+    <div id="message_container" ng-view message-container></div> 
 
     <div id="weather" ng-controller="currentWeatherController" current-weather></div>
 
     <div id="weather_forecast" ng-controller="weatherForecastController" weather-forecasts></div>
      
-    <div id="tickers" ng-controller="tickerController" tickers></div>   
+    <div id="tickers" ng-controller="tickersController" tickers></div>   
 </div>  
 </body>
 </html>

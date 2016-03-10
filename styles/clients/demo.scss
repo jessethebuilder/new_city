@@ -1,19 +1,26 @@
+$accent_color: green;
+$dark_contrast_color: black;
+$light_contrast_color: lightgrey;
+$background-color: white;
+
+
+
 body{
-	background-color: black;
+	background-color: $dark_contrast_color;
 }
 /*--- Player ---*/
 #new_city_player{ 
-	background-color: white;
+	background-color: $background_color;
 	// padding: 40px;
-}
+} 
 
 /*--- Message ---*/
 #message_name{
 	position: absolute;
-	top: -20px;
-	
+	top: -40px;
+  	
 	.nc_component{
-  font-size: 70px;
+  font-size: 70pt;
 	  
 	}
 	// line-height: 100px;
@@ -24,12 +31,13 @@ body{
   left: 25%;
 }
 
+
 #message{
   height: 780px;
-  background-color: lightgrey;
+  background-color: $light_contrast_color;
   
   position: absolute;
-  top: 80px;
+  top: 100px;
   
   width: 75%;
   left: 25%;
@@ -51,13 +59,57 @@ body{
 	}
 } // #message 
 
-//--- #page_navigation ---
 #page_navigation{
   position: absolute;
   width: 75%;
   left: 25%;
   text-align: center;
   top: 860px;
+}
+
+#message_controls{
+  // margin-bottom: 70px;
+  // position: absolute;
+  // top: 700px;
+  
+  #duration{
+    padding-left: 30px;
+    .component_label.pre{
+      display: none;
+    }
+  }
+  
+  #timer_controls{
+    position: absolute;
+    top: -0px;
+    left: 100px;
+  }
+  
+  #message_select{
+    position: absolute;
+    top: 0px;
+    left: 170px;
+    // margin-bottom: 300px;
+    // padding-left: 100px;
+    .message_name{
+      display: block;
+      font-size: 18pt;
+    }
+    
+    .message_name.active{
+      color: $light_contrast_color; 
+    }
+  }
+  
+  #message_navigation{
+    padding-left: 30px;
+    
+    #next_message{
+      .control_icon{ 
+        padding-left: 20px;
+       } 
+    }
+  }
 }
 
 
@@ -69,12 +121,13 @@ body{
 #current_time{
   color: grey;
   position: relative;
-  top: 1045px;
+  top: 1040px;
   left: 1580px;
-  // padding-top: 10px;
-  // padding-left: 10px;
   
-  font-size: 28px;
+  .nc_component{
+    font-size: 20pt;  
+  }
+  
 }
 
 #page_number_seperator, #total_pages, #page_number{
@@ -89,10 +142,12 @@ body{
 
 
 #weather{
+  position: absolute;
+  top: 220px;
   padding-top: 20px;
   padding-bottom: 20px;
-  background-color: black;
-  color: white;
+  background-color: $dark_contrast_color;
+  color: $background_color;
   width: 25%;
   left: 0;
   .weather_local{
@@ -112,32 +167,34 @@ body{
       text-transform: capitalize;
       
       .component_label{
-        color: lightgrey;
+        color: $light_contrast_color;
       }
     }
   }
 }
 
 #weather_forecast{ 
+  position: absolute;
+  top: 690px;
   .forecast_local{
     display: none;
   }
   
   .forecast_days{
     margin-top: 40px;
-    padding-left: 5px;
+    padding-left: 2px;
     
     .forecast_day{
       display: inline-block;
-      margin-left: 10px;
-      margin-right: 10px;
+      margin-left: 7px;
+      margin-right: 7px;
       
-      border-top: 2px solid black;
-      border-bottom: 2px solid black;
+      border-top: 2px solid $dark_contrast_color;
+      border-bottom: 2px solid $dark_contrast_color;
       
       .date{
         text-align: center;
-        font-size: 30px;        
+        font-size: 20pt;        
       }
       
       .graphic{
@@ -145,7 +202,7 @@ body{
       }
       
       .conditions{
-        font-size: 16px;
+        font-size: 12pt;
         margin-bottom: 10px;
       }
       
@@ -167,7 +224,20 @@ body{
 
 //--- Tickers ---
 #tickers{
-  display: none;
+  .ticker_list{
+    li{
+      font-size: 18pt;
+    }
+  }
+  #ticker1{
+    position: absolute;
+    top: 930px;
+  }
+  
+  #ticker2{
+    
+  }
+  
 }
 
 //--- Globals ---
@@ -175,8 +245,16 @@ body{
   font-size: 40px;
 }
 
+.click_control{
+  
+  .control_text{
+    display: none;
+  }
+}
+
 .click_control:hover{
-  color: green; 
+  color: $accent_color; 
+  
 }
 
 p{

@@ -8,19 +8,19 @@ body {
 /*--- Message ---*/
 #message_name {
   position: absolute;
-  top: -20px;
+  top: -40px;
   font-weight: 800;
   text-align: center;
   width: 75%;
   left: 25%; }
   #message_name .nc_component {
-    font-size: 70px; }
+    font-size: 70pt; }
 
 #message {
   height: 780px;
   background-color: lightgrey;
   position: absolute;
-  top: 80px;
+  top: 100px;
   width: 75%;
   left: 25%; }
   #message .ppt_image {
@@ -40,15 +40,38 @@ body {
   text-align: center;
   top: 860px; }
 
+#message_controls #duration {
+  padding-left: 30px; }
+  #message_controls #duration .component_label.pre {
+    display: none; }
+#message_controls #timer_controls {
+  position: absolute;
+  top: -0px;
+  left: 100px; }
+#message_controls #message_select {
+  position: absolute;
+  top: 0px;
+  left: 170px; }
+  #message_controls #message_select .message_name {
+    display: block;
+    font-size: 18pt; }
+  #message_controls #message_select .message_name.active {
+    color: lightgrey; }
+#message_controls #message_navigation {
+  padding-left: 30px; }
+  #message_controls #message_navigation #next_message .control_icon {
+    padding-left: 20px; }
+
 #auto_update_timer, #update_time {
   display: none; }
 
 #current_time {
   color: grey;
   position: relative;
-  top: 1045px;
-  left: 1580px;
-  font-size: 28px; }
+  top: 1040px;
+  left: 1580px; }
+  #current_time .nc_component {
+    font-size: 20pt; }
 
 #page_number_seperator, #total_pages, #page_number {
   display: none; }
@@ -57,6 +80,8 @@ body {
   display: none; }
 
 #weather {
+  position: absolute;
+  top: 220px;
   padding-top: 20px;
   padding-bottom: 20px;
   background-color: black;
@@ -76,38 +101,47 @@ body {
     #weather .weather_detail_components .nc_component .component_label {
       color: lightgrey; }
 
-#weather_forecast .forecast_local {
-  display: none; }
-#weather_forecast .forecast_days {
-  margin-top: 40px;
-  padding-left: 5px; }
-  #weather_forecast .forecast_days .forecast_day {
-    display: inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black; }
-    #weather_forecast .forecast_days .forecast_day .date {
-      text-align: center;
-      font-size: 30px; }
-    #weather_forecast .forecast_days .forecast_day .graphic {
-      text-align: center; }
-    #weather_forecast .forecast_days .forecast_day .conditions {
-      font-size: 16px;
-      margin-bottom: 10px; }
-    #weather_forecast .forecast_days .forecast_day .high_low {
-      font-size: 20px;
-      text-align: center; }
-      #weather_forecast .forecast_days .forecast_day .high_low .component_label {
-        font-weight: 600; }
-  #weather_forecast .forecast_days .high_low {
-    display: inline-block; }
+#weather_forecast {
+  position: absolute;
+  top: 690px; }
+  #weather_forecast .forecast_local {
+    display: none; }
+  #weather_forecast .forecast_days {
+    margin-top: 40px;
+    padding-left: 2px; }
+    #weather_forecast .forecast_days .forecast_day {
+      display: inline-block;
+      margin-left: 7px;
+      margin-right: 7px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black; }
+      #weather_forecast .forecast_days .forecast_day .date {
+        text-align: center;
+        font-size: 20pt; }
+      #weather_forecast .forecast_days .forecast_day .graphic {
+        text-align: center; }
+      #weather_forecast .forecast_days .forecast_day .conditions {
+        font-size: 12pt;
+        margin-bottom: 10px; }
+      #weather_forecast .forecast_days .forecast_day .high_low {
+        font-size: 20px;
+        text-align: center; }
+        #weather_forecast .forecast_days .forecast_day .high_low .component_label {
+          font-weight: 600; }
+    #weather_forecast .forecast_days .high_low {
+      display: inline-block; }
 
-#tickers {
-  display: none; }
+#tickers .ticker_list li {
+  font-size: 18pt; }
+#tickers #ticker1 {
+  position: absolute;
+  top: 930px; }
 
 .nc_component {
   font-size: 40px; }
+
+.click_control .control_text {
+  display: none; }
 
 .click_control:hover {
   color: green; }

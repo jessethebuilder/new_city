@@ -13,7 +13,9 @@
 <div id="page_navigation">
     <div class="nc_component">      
         <span  id="prev_page" class="click_control" ng-click="showPrevPage()">
-            <img ng-src="images/glyphs/page_up.png" width="50pt"></img>
+            <span class="control_icon">
+                <span class="glyphicon glyphicon-circle-arrow-up"></span>
+            </span>     
         </span>
         
         <span id="page_number">
@@ -33,45 +35,57 @@
        </span>          
         
         <span id="next_page" class="click_control" ng-click="showNextPage()">
-            <img ng-src="images/glyphs/page_down.png" width="50pt"></img>
+            <span class="control_icon">
+                <span class="glyphicon glyphicon-circle-arrow-down"></span>
+            </span>     
         </span>
     </div>
 </div>
 
-<div id="duration" class="nc_component">
-    <span class="component_label pre">next message in</span>
-    <span class="nc_component">{{duration}}</span>
-</div>
+<div id="message_controls" class="control_group">
 
-<div id="timer_controls">
-    <div class="nc_component">
-        <span id="stop_message_timer" class="click_control" ng-click="stopMessageTimer()">
-            <span class="component_label">stop</span>
-        </span>
-       
-        <span id="start_message_timer" class="click_control" ng-click="startMessageTimer()">
-            <span class="control_text">start</span>
-        </span>
+
+    <div id="duration" class="nc_component">
+        <span class="component_label pre">next message in</span>
+        <span class="nc_component">{{duration}}</span>
     </div>
-</div>
     
-<div id="message_select">
-    <div class="nc_component">
-        <span class="click_control" ng-repeat="message in messages" ng-click="setMessage($index)">
-            <span class="message_name">
-                {{message.name}}
+    <div id="timer_controls">
+        <div class="nc_component">
+            <span id="stop_message_timer" class="click_control" ng-click="stopMessageTimer()">
+                <span class="control_text">stop</span>
+                <span class="control_icon"><span class="glyphicon glyphicon-pause"></span></span>
             </span>
-        </span>
+           
+            <span id="start_message_timer" class="click_control" ng-click="startMessageTimer()">
+                <span class="control_text">start</span>  
+                <span class="control_icon"><span class="glyphicon glyphicon-play"></span></span>
+            </span>
+        </div>
     </div>
-</div>
-
-<div id="message_navigation">
-    <div class="nc_component">
-        <span id="prev_message" class="click_control" ng-click="setPrevMessage()">
-            <span class="control_text">prev</span>
-        </span>
-        <span id="next_message" class="click_control" ng-click="setNextMessage()">
-            <span class="control_text">next</span>
-        </span>    
+        
+    <div id="message_select">
+        <div class="nc_component">
+            <span class="click_control" ng-repeat="message in messages" ng-click="setMessage($index)">
+                <span class="message_name" data-message-index="{{$index}}" ng-class="setMessageSelect($index)">
+                    {{message.name}}
+                </span>
+            </span>
+        </div>
     </div>
-</div>
+    
+    <div id="message_navigation">
+        <div class="nc_component">
+            <span id="prev_message" class="click_control" ng-click="setPrevMessage()">
+                <span class="control_text">prev</span>
+                <span class="control_icon"><span class="glyphicon glyphicon-triangle-left"></span></span>
+            </span>
+            <span id="next_message" class="click_control" ng-click="setNextMessage()">
+                
+                <span class="control_icon"><span class="glyphicon glyphicon-triangle-right"></span></span>
+            
+                <span class="control_text">next</span>
+            </span>    
+        </div>
+    </div>
+</div>     
