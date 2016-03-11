@@ -34,14 +34,19 @@ newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 newCityPlayer.directive('message', function() {    
     return {
         link: function($scope, element, attrs) {
-            // Trigger when number of children changes,
-            // including by directives like ng-repeat
+        	
+        	
+        	// following block is to enable pageNavigation(), which needs a number of images, served by ngRepeat, but not by
+        	// ngSrc, because the images are served by the JSON feed.
             var watch = $scope.$watch(function() {
                 return element.children().length;
             }, function() {
-                // Wait for templates to render
                 $scope.$evalAsync(function() {
    					$scope.pageNavigation();               
+            		
+            		if($scope.touch_enabled === 1){
+            			$scope.enableTouch(element);	
+            		}
                 });
             });
         },
@@ -61,6 +66,7 @@ newCityPlayer.controller('messageController',
 						 function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerData){
 		$scope.setData = function(){
 			PlayerData.getData().then(function(player_data, status){		
+				$scope.touch_enabled = parseInt(player_data.raw.data[0].touch);
 				$http({
 					method: 'GET',
 					url: player_data.raw.data[0].feed_url,
@@ -233,6 +239,31 @@ newCityPlayer.controller('messageController',
 			
 			$scope.setMessageSelect(jQuery('#message_select', $scope.index));
 		};
+		
+		var touch_has_been_enabled = false;
+		
+		//--- Touch Features ---
+		$scope.enableTouch = function(box){
+			if(!touch_has_been_enabled){
+				touch_has_been_enabled = true;
+				jQuery(box).closest('#message').swipe({
+					swipe: function(event, direction, distance, duration, fingerCount){
+							console.log(direction);
+							if(direction === 'right'){
+								$scope.setNextMessage();
+							} else if(direction === 'left') {
+								$scope.setPrevMessage();
+							} else if(direction === 'up'){
+								$scope.showNextPage();
+							} else if(direction === 'down'){
+								$scope.showPrevPage();
+							}
+					}
+				});
+			}
+		};
+		
+		
 }]);
 
 newCityPlayer.directive('weatherForecasts', function(){
@@ -264,12 +295,16 @@ newCityPlayer.controller('weatherForecastController', ['$scope', '$http', '$inte
 		
 	$scope.setData = function(){
 		PlayerData.getData().then(function(player_data){;
-			$http.get(player_data.raw.data[0].weather.forecast).success(function(data, status){		
-				$scope.forecasts = data.forecast.simpleforecast.forecastday;
-				$scope.local = $scope.forecasts[0].date.tz_long;
-			}).error(function(data, status){
-				console.log(status);
-			});
+			if(parseInt(player_data.raw.data[0].weather.enabled) === 1){
+				$http.get(player_data.raw.data[0].weather.forecast).success(function(data, status){			
+					$scope.forecasts = data.forecast.simpleforecast.forecastday;
+					$scope.local = $scope.forecasts[0].date.tz_long;
+				}).error(function(data, status){
+					console.log(status);
+				});
+			} else {
+				stopTimer();
+			}
 		});
 	};
 
@@ -306,13 +341,16 @@ newCityPlayer.controller('currentWeatherController', ['$scope', '$http', '$inter
 		
 	$scope.setData = function(){
 		PlayerData.getData().then(function(player_data){
-			$http.get(player_data.raw.data[0].weather.current).success(function(data){
-				$scope.weather = data.current_observation;
-			}).error(function(data, status){
-				console.log(status);
-			});	
+			if(parseInt(player_data.raw.data[0].weather.enabled) === 1){
+				$http.get(player_data.raw.data[0].weather.current).success(function(data){
+					$scope.weather = data.current_observation;
+				}).error(function(data, status){
+					console.log(status);
+				});	
+			} else {
+				stopTimer();
+			}
 		});
-	
 	};
 	
 	startTimer();
@@ -326,11 +364,17 @@ newCityPlayer.directive('tickers', function(){
 	};
 });
 
+// todo
 // newCityPlayer.directive('ticker', function(){  
 	 // return {
+	 	// restrict: 'E',
+		// scope:{
+			// name: 
+			// },
         // link: function($scope, element, attrs) {
-        	// }
-      // };
+//        	
+       		// }
+    // };
 // });
 
 newCityPlayer.controller('tickersController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){

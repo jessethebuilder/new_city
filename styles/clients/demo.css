@@ -9,6 +9,7 @@ body {
 #message_name {
   position: absolute;
   top: -40px;
+  padding-top: 40px;
   font-weight: 800;
   text-align: center;
   width: 75%;
@@ -20,7 +21,7 @@ body {
   height: 780px;
   background-color: lightgrey;
   position: absolute;
-  top: 100px;
+  top: 145px;
   width: 75%;
   left: 25%; }
   #message .ppt_image {
@@ -46,11 +47,11 @@ body {
     display: none; }
 #message_controls #timer_controls {
   position: absolute;
-  top: -0px;
+  top: 40px;
   left: 100px; }
 #message_controls #message_select {
   position: absolute;
-  top: 0px;
+  top: 50px;
   left: 170px; }
   #message_controls #message_select .message_name {
     display: block;

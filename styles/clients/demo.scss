@@ -11,14 +11,14 @@ body{
 /*--- Player ---*/
 #new_city_player{ 
 	background-color: $background_color;
-	// padding: 40px;
+	
 } 
 
 /*--- Message ---*/
 #message_name{
 	position: absolute;
 	top: -40px;
-  	
+  padding-top: 40px;	
 	.nc_component{
   font-size: 70pt;
 	  
@@ -37,7 +37,7 @@ body{
   background-color: $light_contrast_color;
   
   position: absolute;
-  top: 100px;
+  top: 145px;
   
   width: 75%;
   left: 25%;
@@ -81,13 +81,14 @@ body{
   
   #timer_controls{
     position: absolute;
-    top: -0px;
+    top: 40px;
     left: 100px;
+    
   }
   
   #message_select{
     position: absolute;
-    top: 0px;
+    top: 50px;
     left: 170px;
     // margin-bottom: 300px;
     // padding-left: 100px;

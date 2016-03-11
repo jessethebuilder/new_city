@@ -1,6 +1,6 @@
 [
     {
-        "touch": "0",
+        "touch": "1",
         "weather": {
             "enabled": 1,
             "forecast": "temp/forecast.json",
