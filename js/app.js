@@ -325,14 +325,12 @@ newCityPlayer.directive('tickers', function(){
 	};
 });
 
-newCityPlayer.directive('ticker', function(){  
-	 return {
-        link: function($scope, element, attrs) {
-        			// jQuery(element).webTicker();
-       				console.log(element);
-        		},
-    };
-});
+// newCityPlayer.directive('ticker', function(){  
+	 // return {
+        // link: function($scope, element, attrs) {
+        	// }
+      // };
+// });
 
 newCityPlayer.controller('tickersController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
 	PlayerData.getData().then(function(player_data, status){
