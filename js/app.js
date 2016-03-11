@@ -93,11 +93,12 @@ newCityPlayer.controller('messageController',
 			var i = parseInt($scope.message_index);
 			i++;
 			if(i >= $scope.messages.length){
-				$route.reload();
-				// $scope.setData();
+				// $route.reload();
+				$scope.setData();
 			} else{ 			 	
 				$scope.setMessage(i);	
 			}	
+			// $scope.setMessage(i);	
 		};
 		
 		$scope.setPrevMessage = function(){
