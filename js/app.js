@@ -11,7 +11,7 @@ newCityPlayer.config(['$routeProvider', function($routeProvider){
 		templateUrl: 'partials/message.html',	
 		css: 'styles/clients/' + client_name + '.css'
 	}).otherwise({
-		redirectTo: '/demo'
+		// redirectTo: '/demo'
 	});
 }]);
 
