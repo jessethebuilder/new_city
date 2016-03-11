@@ -132,7 +132,7 @@ body {
     #weather_forecast .forecast_days .high_low {
       display: inline-block; }
 
-#tickers .ticker_list li {
+#tickers .ticker li {
   font-size: 18pt; }
 #tickers #ticker1 {
   position: absolute;

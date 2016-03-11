@@ -33,9 +33,7 @@ newCityPlayer.factory('PlayerData', ['$http', '$q', function($http, $q){
 
 newCityPlayer.directive('message', function() {    
     return {
-        link: function($scope, element, attrs) {
-        	
-        	
+        link: function($scope, element, attrs) {	
         	// following block is to enable pageNavigation(), which needs a number of images, served by ngRepeat, but not by
         	// ngSrc, because the images are served by the JSON feed.
             var watch = $scope.$watch(function() {
@@ -248,7 +246,6 @@ newCityPlayer.controller('messageController',
 				touch_has_been_enabled = true;
 				jQuery(box).closest('#message').swipe({
 					swipe: function(event, direction, distance, duration, fingerCount){
-							console.log(direction);
 							if(direction === 'right'){
 								$scope.setNextMessage();
 							} else if(direction === 'left') {
@@ -357,49 +354,52 @@ newCityPlayer.controller('currentWeatherController', ['$scope', '$http', '$inter
 	$scope.setData();
 }]);
 
-
 newCityPlayer.directive('tickers', function(){
 	return{
-		templateUrl: 'partials/tickers.html'
+		templateUrl: 'partials/tickers.html',
+		transclude: true,
+		
+		controller: ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
+			PlayerData.getData().then(function(player_data, status){
+
+				var scrollers = player_data.raw.data[1].scrollers;
+		
+				$http.get(scrollers[0]).success(function(data){
+					if(data.length > 0){
+						$scope.ticker1 = data;
+					}
+				}).error(function(data, status){
+					console.log(status);
+				});
+		
+				$http.get(scrollers[1]).success(function(data){
+					if(data.length > 0){
+						$scope.ticker2 = data;
+					}
+				}).error(function(data, status){
+					console.log(status);
+				});
+			});	
+		}],
 	};
 });
 
-// todo
 // newCityPlayer.directive('ticker', function(){  
 	 // return {
-	 	// restrict: 'E',
-		// scope:{
-			// name: 
-			// },
-        // link: function($scope, element, attrs) {
-//        	
-       		// }
+	 	// require: '^^tickers',
+	 	// transclude: true,
+        // link: function($scope, element, attrs, tickers_controller) {
+            // // var watch = $scope.$watch(function() {
+                // // return element.children().length;
+            // // }, function() {
+                // // $scope.$evalAsync(function() {
+    	      			// console.log(tickers_controller);
+//                 	
+                // // });
+            // // });		
+	   		// }
     // };
 // });
-
-newCityPlayer.controller('tickersController', ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
-	PlayerData.getData().then(function(player_data, status){
-
-		var scrollers = player_data.raw.data[1].scrollers;
-		
-		$http.get(scrollers[0]).success(function(data){
-			$scope.ticker1 = data;
-		}).error(function(data, status){
-			console.log(status);
-		});
-		
-		$http.get(scrollers[1]).success(function(data){
-			$scope.ticker2 = data;
-		}).error(function(data, status){
-			console.log(status);
-		});
-	});	
-	
-	$scope.startTicker = function(ticker_selector){
-		
-	};
-	
-}]);
 
 newCityPlayer.controller('clockController', ['$scope', '$interval', '$http', 'PlayerData', function($scope, $interval, $http, PlayerData){
 	$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';		
