@@ -364,54 +364,45 @@ function($scope, $http, $interval, PlayerData) {
 	$scope.setData();
 }]);
 
-newCityPlayer.directive('tickers', function() {
+//--- Tickers ---
+
+newCityPlayer.directive('ticker', function(){
 	return {
-		templateUrl : 'partials/tickers.html',
-		transclude : true,
-
-		controller : ['$scope', '$http', 'PlayerData',
-		function($scope, $http, PlayerData) {
-			PlayerData.getData().then(function(player_data, status) {
-
-				var scrollers = player_data.raw.data[1].scrollers;
-
-				$http.get(scrollers[0]).success(function(data) {
-					if (data.length > 0) {
-						$scope.ticker1 = data;
-					}
-				}).error(function(data, status) {
-					console.log(status);
+		templateUrl: 'partials/ticker.html',
+		scope:{
+			ticker: '='	
+		},
+		controller: ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
+			$scope.setData = function(){
+				PlayerData.getData().then(function(player_data, status){			
+					$http.get(player_data.raw.data[1].scrollers[$scope.ticker_index]).success(function(data){
+						$scope.data = data;
+					}).error(function(data, status){
+						console.log(status);
+					});
 				});
-
-				$http.get(scrollers[1]).success(function(data) {
-					if (data.length > 0) {
-						$scope.ticker2 = data;
-					}
-				}).error(function(data, status) {
-					console.log(status);
-				});
-			});
+			};
+			
+			$scope.setData();
 		}],
-
-	};
+		link: function($scope, e, attrs, controller){
+			// Set ticker_index for controller above
+			$scope.ticker_index = parseInt(attrs.ticker.replace(/ticker/, '')) - 1;
+			
+			window.setTimeout(function(){
+				
+				jQuery(e).find('ul.ticker_list').webTicker();			
+			}, 2000);
+			
+			// console.log($scope.data);
+			
+			// Use data got with ticker_index
+			// if(typeof $scope.data != 'undefined'){
+				// console.log('x');
+			// }
+		}
+	};	
 });
-
-// newCityPlayer.directive('ticker', function(){
-// return {
-// require: '^^tickers',
-// transclude: true,
-// link: function($scope, element, attrs, tickers_controller) {
-// // var watch = $scope.$watch(function() {
-// // return element.children().length;
-// // }, function() {
-// // $scope.$evalAsync(function() {
-// console.log(tickers_controller);
-//
-// // });
-// // });
-// }
-// };
-// });
 
 newCityPlayer.controller('clockController', ['$scope', '$interval', '$http', 'PlayerData',
 function($scope, $interval, $http, PlayerData) {
@@ -452,7 +443,7 @@ function _toggleWeather(){
 		if(jQuery(this).is(':visible')){
 			close_weather_countdown = window.setTimeout(function(){
 				jQuery('#weather_components').hide(400);
-			}, 5000);
+			}, 30000);
 		} else {
 			window.clearTimeout(close_weather_countdown);
 		}

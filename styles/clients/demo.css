@@ -159,9 +159,12 @@ body {
     #weather_forecast .forecast_days .high_low {
       display: inline-block; }
 
-#tickers .ticker li {
-  font-size: 18pt; }
-#tickers #ticker1 {
+.nc_ticker {
+  display: none; }
+  .nc_ticker li {
+    font-size: 18pt; }
+
+#ticker1 {
   position: absolute;
   top: 930px; }
 
