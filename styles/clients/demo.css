@@ -51,6 +51,19 @@ body {
   left: 100px; }
 #message_controls #message_list {
   display: none; }
+#message_controls #message_select {
+  position: absolute;
+  left: 160px;
+  top: 34px; }
+  #message_controls #message_select select {
+    width: 310px;
+    font-size: 16pt;
+    padding: 10px;
+    font-weight: 600; }
+  #message_controls #message_select option {
+    font-size: 16pt; }
+  #message_controls #message_select .component_label.pre {
+    display: none; }
 #message_controls #message_navigation {
   padding-left: 30px; }
   #message_controls #message_navigation #next_message .control_icon {
@@ -67,7 +80,10 @@ body {
   #current_time .nc_component {
     font-size: 20pt; }
 
-#page_number_seperator, #total_pages, #page_number {
+#page_number_seperator, #total_pages {
+  display: none; }
+
+#weather_components {
   display: none; }
 
 .metric {
@@ -84,8 +100,12 @@ body {
     color: white;
     padding: 10px;
     border-radius: 10px; }
+  #toggle_weather .click_control .control_text:visited {
+    color: white; }
   #toggle_weather .click_control .control_text:hover {
     color: green; }
+  #toggle_weather .click_control .control_text:active {
+    color: white; }
 
 #weather {
   position: absolute;

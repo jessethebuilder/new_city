@@ -43,8 +43,6 @@
 </div>
 
 <div id="message_controls" class="control_group">
-
-
     <div id="duration" class="nc_component">
         <span class="component_label pre">next message in</span>
         <span class="nc_component">{{duration}}</span>
@@ -71,6 +69,20 @@
                 <span class="message_name" data-message-index="{{$index}}" ng-class="setMessageSelect($index)">
                     {{message.name}}
                 </span>
+            </span>
+        </div>
+    </div>
+    
+    <div id="message_select">
+        <div class="nc_component">
+            
+            <span class="component_label pre">message</span>
+            <span class="select_control">
+                <select id="message_name_select" 
+                        ng-options="message.name for message in messages" 
+                        ng-model="selectedMessage" 
+                        ng-change="setMessage(messages.indexOf(selectedMessage))">
+                </select>
             </span>
         </div>
     </div>

@@ -33,6 +33,10 @@ body{
 }
 
 
+.click_control{
+  // display: none;
+}
+
 #message{
   height: 780px;
   background-color: $light_contrast_color;
@@ -107,7 +111,25 @@ body{
   }
   
   #message_select{
+    position: absolute;
+    left: 160px;
+    top: 34px;
     
+    select{
+      width: 310px;
+      font-size: 16pt;
+      padding: 10px;
+      font-weight: 600;
+    }
+    
+    option{
+      font-size: 16pt;
+    }
+    
+    .component_label.pre{
+      display: none;
+    }
+     
   }
   
   #message_navigation{
@@ -120,7 +142,6 @@ body{
     }
   }
 }
-
 
 //--- Clock ---
 #auto_update_timer, #update_time{
@@ -139,11 +160,15 @@ body{
   
 }
 
-#page_number_seperator, #total_pages, #page_number{
+#page_number_seperator, #total_pages{
   display: none;
 }
 
 //--- Weather ---
+#weather_components{
+  display: none;
+}
+
 .metric{
   display: none;
 }
@@ -163,8 +188,16 @@ body{
       border-radius: 10px;
     }
     
+    .control_text:visited{
+      color: $background_color;
+    }
+    
     .control_text:hover{
       color: $accent_color;
+    }
+    
+    .control_text:active{
+      color: $background_color;
     }
   }
 }
