@@ -12,7 +12,7 @@
 
 <div id="page_navigation">
     <div class="nc_component">      
-        <span  id="prev_page" class="click_control" ng-click="showPrevPage()">
+        <span  id="prev_page" class="click_control" ng-click="setPrevPage()">
             <span class="control_icon">
                 <span class="glyphicon glyphicon-circle-arrow-up"></span>
             </span>     
@@ -34,7 +34,7 @@
             </span>
        </span>          
         
-        <span id="next_page" class="click_control" ng-click="showNextPage()">
+        <span id="next_page" class="click_control" ng-click="setNextPage()">
             <span class="control_icon">
                 <span class="glyphicon glyphicon-circle-arrow-down"></span>
             </span>     
@@ -48,6 +48,7 @@
     <div id="duration" class="nc_component">
         <span class="component_label pre">next message in</span>
         <span class="nc_component">{{duration}}</span>
+        <span class="component_label post">seconds</span>
     </div>
     
     <div id="timer_controls">
@@ -64,7 +65,7 @@
         </div>
     </div>
         
-    <div id="message_select">
+    <div id="message_list">
         <div class="nc_component">
             <span class="click_control" ng-repeat="message in messages" ng-click="setMessage($index)">
                 <span class="message_name" data-message-index="{{$index}}" ng-class="setMessageSelect($index)">

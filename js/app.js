@@ -40,11 +40,12 @@ newCityPlayer.directive('message', function() {
                 return element.children().length;
             }, function() {
                 $scope.$evalAsync(function() {
-   					$scope.pageNavigation();               
-            		
             		if($scope.touch_enabled === 1){
-            			$scope.enableTouch(element);	
+            			$scope.enableTouch(element);
+						
             		}
+            		
+            		$scope.pageNavigation();              
                 });
             });
         },
@@ -73,6 +74,15 @@ newCityPlayer.controller('messageController',
 					$scope.messages = data;
 					$scope.message_index = 0;
 					$scope.setMessage($scope.message_index);
+					
+					if(!$scope.touch_enabled){
+						// jQuery('#message_controls').hide();
+            			jQuery('#prev_page').detach();
+            			jQuery('#next_page').detach();
+            			jQuery('#timer_controls').detach();
+            			jQuery('#message_list').detach();
+            			jQuery('#message_navigation').detach();	
+					}
 				}).error(function(data, status){
 					console.log(status);
 				});
@@ -88,6 +98,7 @@ newCityPlayer.controller('messageController',
 			$scope.message_name = $scope.raw_message.name;	
 			
 			$scope.duration = $scope.raw_message.duration;
+			$scope.initial_duration = $scope.duration;
 			$scope.transition = $scope.raw_message.transition;
 			
 			$scope.startMessage();
@@ -97,12 +108,10 @@ newCityPlayer.controller('messageController',
 			var i = parseInt($scope.message_index);
 			i++;
 			if(i >= $scope.messages.length){
-				// $route.reload();
 				$scope.setData();
 			} else{ 			 	
 				$scope.setMessage(i);	
 			}	
-			// $scope.setMessage(i);	
 		};
 		
 		$scope.setPrevMessage = function(){
@@ -115,27 +124,35 @@ newCityPlayer.controller('messageController',
 		};
 		
 		//---------------- Timer functions -------------
+		$scope.updateMessage  = function(){
+			if($scope.multipage && $scope.current_page_number != $scope.total_pages - 1){
+				$scope.duration = $scope.initial_duration;
+				$scope.setNextPage(); 
+				$scope.startMessageTimer();
+			} else {			
+				$scope.setNextMessage();
+			}
+		};
 
-
-		function updateDuration(){
+		$scope.updateDuration = function(){
 			if(update_duration){
 				$scope.duration = $scope.duration - 1;			
-			
+					
 				if($scope.duration < 0){
-		    		$scope.setNextMessage();
+					$scope.updateMessage();
 		    	}	
 			} 
-		}
+		};
 
 		var stop;
 			
-		startTimer = function(){
+		$scope.startTimer = function(){
 			stop = $interval(function(){
-				updateDuration();			
+				$scope.updateDuration();			
 			}, 1000);
 		};
 		
-		function stopTimer(){
+		$scope.stopTimer = function(){
 			if(angular.isDefined(stop)){
 				$interval.cancel(stop);
 				stop = undefined;			
@@ -143,7 +160,7 @@ newCityPlayer.controller('messageController',
 		};	
 	
 		$scope.$on('$destroy', function(){
-			stopTimer();
+			$scope.stopTimer();
 		});
 		
 		
@@ -159,14 +176,14 @@ newCityPlayer.controller('messageController',
 			jQuery('#stop_message_timer').hide();
 		};
 		
-
-		startTimer();
+		$scope.startTimer();
 		$scope.startMessageTimer();
 	
-		//----------------- Page Flipper Functions ----------
-		function setPageNumber(index){
+		//----------------- Page Navigation ----------
+		
+		$scope.setPageNumber = function(index){
 			$scope.current_page_number = index + 1;
-		}	
+		};
 		
 		 $scope.showPage = function(index_modifier){
 			var pages = jQuery('.converted_page');
@@ -174,14 +191,14 @@ newCityPlayer.controller('messageController',
 			$scope.stopMessageTimer();
 			jQuery(pages).hide();
 			jQuery(pages[index]).show();
-			setPageNumber(index);					
+			$scope.setPageNumber(index);
 		};
 			
-		$scope.showNextPage = function(){
+		$scope.setNextPage = function(){
 			$scope.showPage(1);			
 		};
 		
-		$scope.showPrevPage = function(){
+		$scope.setPrevPage = function(){
 			$scope.showPage(-1);
 		};
 		
@@ -191,9 +208,11 @@ newCityPlayer.controller('messageController',
 			if(pages.length > 0){
 				pages.hide();
 				jQuery('#page_navigation').show();
-				setPageNumber(0);
+				$scope.setPageNumber(0);
+				$scope.multipage = true;
 			} else {
 				jQuery('#page_navigation').hide();
+				$scope.multipage = false;
 			}
 			
 			$scope.total_pages = pages.length;
@@ -203,7 +222,7 @@ newCityPlayer.controller('messageController',
 		
 		//--- Transitions --- 
 		
-		var fadeInMessage = function(){
+		$scope.fadeInMessage = function(){
 			jQuery('#message').css({
 				opacity: 0,
 				visibility: 'visible'
@@ -218,7 +237,7 @@ newCityPlayer.controller('messageController',
 			if(typeof $scope.transition != 'undefined'){
 				switch($scope.transition){
 					case 'fadein':		
-						fadeInMessage();
+						$scope.fadeInMessage();
 				}
 			}
 			
@@ -235,7 +254,7 @@ newCityPlayer.controller('messageController',
 			
 			$scope.messageTransition();
 			
-			$scope.setMessageSelect(jQuery('#message_select', $scope.index));
+			$scope.setMessageSelect(jQuery('#message_list', $scope.index));
 		};
 		
 		var touch_has_been_enabled = false;
@@ -251,16 +270,14 @@ newCityPlayer.controller('messageController',
 							} else if(direction === 'left') {
 								$scope.setPrevMessage();
 							} else if(direction === 'up'){
-								$scope.showNextPage();
+								$scope.setNextPage();
 							} else if(direction === 'down'){
-								$scope.showPrevPage();
+								$scope.setPrevPage();
 							}
 					}
 				});
 			}
 		};
-		
-		
 }]);
 
 newCityPlayer.directive('weatherForecasts', function(){
@@ -273,13 +290,13 @@ newCityPlayer.controller('weatherForecastController', ['$scope', '$http', '$inte
 						 function($scope, $http, $interval, PlayerData){
 	var stop;
 		
-	startTimer = function(){
+	$scope.startTimer = function(){
 		stop = $interval(function(){
 			$scope.setData();			
 		}, 1800000);
 	};
 	
-	function stopTimer(){
+	$scope.stopTimer = function(){
 		if(angular.isDefined(stop)){
 			$interval.cancel(stop);
 			stop = undefined;			
@@ -287,7 +304,7 @@ newCityPlayer.controller('weatherForecastController', ['$scope', '$http', '$inte
 	};
 	
 	$scope.$on('$destroy', function(){
-		stopTimer();
+		$scope.stopTimer();
 	});
 		
 	$scope.setData = function(){
@@ -300,12 +317,12 @@ newCityPlayer.controller('weatherForecastController', ['$scope', '$http', '$inte
 					console.log(status);
 				});
 			} else {
-				stopTimer();
+				$scope.stopTimer();
 			}
 		});
 	};
 
-	startTimer();
+	$scope.startTimer();
 	$scope.setData();	
 }]);
 
@@ -319,13 +336,13 @@ newCityPlayer.controller('currentWeatherController', ['$scope', '$http', '$inter
 						 function($scope, $http, $interval, PlayerData){
 	var stop;
 		
-	startTimer = function(){
+	$scope.startTimer = function(){
 		stop = $interval(function(){
 			$scope.setData();			
 		}, 60000);
 	};
 	
-	function stopTimer(){
+	$scope.stopTimer = function(){
 		if(angular.isDefined(stop)){
 			$interval.cancel(stop);
 			stop = undefined;			
@@ -333,7 +350,7 @@ newCityPlayer.controller('currentWeatherController', ['$scope', '$http', '$inter
 	};
 	
 	$scope.$on('$destroy', function(){
-		stopTimer();
+		$scope.stopTimer();
 	});
 		
 	$scope.setData = function(){
@@ -345,12 +362,12 @@ newCityPlayer.controller('currentWeatherController', ['$scope', '$http', '$inter
 					console.log(status);
 				});	
 			} else {
-				stopTimer();
+				$scope.stopTimer();
 			}
 		});
 	};
 	
-	startTimer();
+	$scope.startTimer();
 	$scope.setData();
 }]);
 
@@ -404,19 +421,19 @@ newCityPlayer.directive('tickers', function(){
 newCityPlayer.controller('clockController', ['$scope', '$interval', '$http', 'PlayerData', function($scope, $interval, $http, PlayerData){
 	$scope.current_time_format = 'MMMM dd, yyyy h:mm:ss a';		
 
-	function updateCurrentTime(){	
+	$scope.updateCurrentTime = function(){	
 		$scope.current_time = Date.now();	
-	}
+	};
 
 	var stop;
 
-	startTimer = function(){
+	$scope.startTimer = function(){
 		stop = $interval(function(){
-			updateCurrentTime();						
+			$scope.updateCurrentTime();						
 		}, 1000);
 	};
 	
-	function stopTimer(){
+	$scope.stopTimer = function(){
 		if(angular.isDefined(stop)){
 			$interval.cancel(stop);
 			stop = undefined;			
@@ -424,8 +441,12 @@ newCityPlayer.controller('clockController', ['$scope', '$interval', '$http', 'Pl
 	};
 	
 	$scope.$on('$destroy', function(){
-		stopTimer();
+		$scope.stopTimer();
 	});
 	
-	startTimer();
+	$scope.startTimer();
 }]);
+
+//--- end NewCityPlayerApp ---
+
+jQuery('#toggle_weather').toggle('#')

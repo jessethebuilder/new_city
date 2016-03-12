@@ -64,7 +64,7 @@ body{
   width: 75%;
   left: 25%;
   text-align: center;
-  top: 860px;
+  top: 903px;
 }
 
 #message_controls{
@@ -74,7 +74,7 @@ body{
   
   #duration{
     padding-left: 30px;
-    .component_label.pre{
+    .component_label{
       display: none;
     }
   }
@@ -86,20 +86,27 @@ body{
     
   }
   
+  // #message_list{
+    // position: absolute;
+    // top: 50px;
+    // left: 170px;
+    // // margin-bottom: 300px;
+    // // padding-left: 100px;
+    // .message_name{
+      // display: block;
+      // font-size: 18pt;
+    // }
+    // .message_name.active{
+      // color: $light_contrast_color; 
+    // }
+  // }
+  
+  #message_list{
+    display: none;
+  }
+  
   #message_select{
-    position: absolute;
-    top: 50px;
-    left: 170px;
-    // margin-bottom: 300px;
-    // padding-left: 100px;
-    .message_name{
-      display: block;
-      font-size: 18pt;
-    }
     
-    .message_name.active{
-      color: $light_contrast_color; 
-    }
   }
   
   #message_navigation{

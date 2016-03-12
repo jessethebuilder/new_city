@@ -35,10 +35,18 @@
     </div>
    
     <div id="message_container" ng-view message-container></div> 
-
-    <div id="weather" ng-controller="currentWeatherController" current-weather></div>
-
-    <div id="weather_forecast" ng-controller="weatherForecastController" weather-forecasts></div>
+    
+    <div id="toggle_weather">
+        <span class="click_control">
+            <span class="control_text">weather</span>
+        </span>        
+    </div>
+    
+    <div id="weather_components">
+        
+        <div id="weather" ng-controller="currentWeatherController" current-weather></div>
+        <div id="weather_forecast" ng-controller="weatherForecastController" weather-forecasts></div>
+    </div>
      
     <div id="tickers" tickers></div>   
 </div>  

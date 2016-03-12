@@ -39,25 +39,18 @@ body {
   width: 75%;
   left: 25%;
   text-align: center;
-  top: 860px; }
+  top: 903px; }
 
 #message_controls #duration {
   padding-left: 30px; }
-  #message_controls #duration .component_label.pre {
+  #message_controls #duration .component_label {
     display: none; }
 #message_controls #timer_controls {
   position: absolute;
   top: 40px;
   left: 100px; }
-#message_controls #message_select {
-  position: absolute;
-  top: 50px;
-  left: 170px; }
-  #message_controls #message_select .message_name {
-    display: block;
-    font-size: 18pt; }
-  #message_controls #message_select .message_name.active {
-    color: lightgrey; }
+#message_controls #message_list {
+  display: none; }
 #message_controls #message_navigation {
   padding-left: 30px; }
   #message_controls #message_navigation #next_message .control_icon {
