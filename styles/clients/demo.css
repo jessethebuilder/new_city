@@ -73,6 +73,20 @@ body {
 .metric {
   display: none; }
 
+#toggle_weather {
+  position: absolute;
+  top: 155px;
+  left: 14px; }
+  #toggle_weather .click_control .control_text {
+    display: inline;
+    font-size: 24pt;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 10px; }
+  #toggle_weather .click_control .control_text:hover {
+    color: green; }
+
 #weather {
   position: absolute;
   top: 220px;

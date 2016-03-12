@@ -1,7 +1,8 @@
 $accent_color: green;
 $dark_contrast_color: black;
+$medium_contrast_color: #333;
 $light_contrast_color: lightgrey;
-$background-color: white;
+$background_color: white;
 
 
 
@@ -147,7 +148,26 @@ body{
   display: none;
 }
 
-
+#toggle_weather{
+  position: absolute;
+  top: 155px;
+  left: 14px;
+  
+  .click_control{
+    .control_text{
+      display: inline;
+      font-size: 24pt;
+      background-color: $medium_contrast_color;
+      color: $background_color;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    
+    .control_text:hover{
+      color: $accent_color;
+    }
+  }
+}
 
 #weather{
   position: absolute;
