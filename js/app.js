@@ -449,13 +449,13 @@ newCityPlayer.controller('clockController', ['$scope', '$interval', '$http', 'Pl
 
 //--- end NewCityPlayerApp ---
 
-function toggleWeather(){
+function toggleWeather(duration, callback){
 	// Effects elements in 2 controllers (weatherController and forecastController), so this logic is outside of the Angular App
 	jQuery('#toggle_weather').find('.click_control').click(function(){
-		jQuery('#weather_components').toggle();
+		jQuery('#weather_components').toggle(duration, callback);
 	});
 }
 
 jQuery(function(){
-	toggleWeather();
+	toggleWeather(400);
 });
