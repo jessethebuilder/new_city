@@ -1,102 +1,99 @@
-<div class="weather_local">
-    {{weather.observation_location.city}}
-</div>
-
-<div class="weather_image nc_component">
-    <img ng-src="{{weather.icon_url}}"></img>
-</div>
-
-<div class="weather_condition nc_component">
-    {{weather.weather}} 
-</div>
-
-<div class="metric nc_component">
-    {{weather.temp_c}} &#8451
-    <div class="feels_like">
-        <span class="component_label pre">feels like</span> {{weather.feelslike_c}} &#8451
+<div id="weather_local">
+    <div class="nc_component">
+        {{weather.observation_location.city}}    
     </div>
 </div>
 
-<div class="imperial nc_component">
-    {{weather.temp_f}} &#8457
-    <div class="feels_like">
-        <span class="component_label pre">feels like</span> {{weather.feelslike_f}} &#8457
+<div id="weather_image">
+    <div class="nc_component">
+        <img ng-src="{{weather.icon_url}}"></img>
     </div>
 </div>
 
-<div class="weather_detail_components">
-    <div class="relative_humidity nc_component">
-        <span class="component_label pre">relative humidity</span> {{weather.relative_humidity}}
+<div id="weather_conditions">
+    <div class="nc_component">
+        {{weather.weather}} 
+    </div>
+</div>
+
+<div id="current_temperature">
+    <div class="metric nc_component">
+        {{weather.temp_c}} &#8451
+        <div class="feels_like">
+            <span class="nc_label pre">feels like</span> {{weather.feelslike_c}} &#8451
+        </div>
     </div>
     
-    <div class="wind wind_speed metric nc_component">
-        <span class="component_label pre">wind</span>
-        {{weather.wind_kph}} 
-        <span class="component_label post">kph</span>
+    <div class="imperial nc_component">
+        {{weather.temp_f}} &#8457
+        <div class="feels_like">
+            <span class="nc_label pre">feels like</span> {{weather.feelslike_f}} &#8457
+        </div>
+    </div>
+</div>
 
-        <span class="wind wind_direction nc_component">
-            <span class="component_label pre">out of</span>
-            {{weather.wind_dir}}
+
+<div id="weather_detail_components" class="nc_component_group">
+    <div id="relative_humidity">
+        <span class="nc_label pre">relative humidity</span>
+        <span class="nc_component">
+            {{weather.relative_humidity}}
         </span>
     </div>
     
-    <div class="wind wind_speed imperial nc_component">
-        <span class="component_label pre">wind</span> 
-            {{weather.wind_mph}}
-        <span class="component_label post">mph</span>
-        <span class="wind wind_direction nc_component">
-            <span class="component_label pre">out of</span>
-            {{weather.wind_dir}}
-        </span>
+    <div id="wind">
+       <span class="nc_label pre">wind</span>
+       <span class="metric">
+           <span class="nc_component">{{weather.wind_kph}}</span>
+           <span class="nc_label post">kph</span>                  
+       </span>
+       <span class="imperial">
+            <span class="nc_component">{{weather.wind_mph}}</span>
+            <span class="nc_label post">mph</span>       
+       </span>
+       
+       <span class="wind_direction">
+            <span class="nc_label pre">out of</span>
+            <span class="nc_component">{{weather.wind_dir}}</span>
+       </span>         
     </div>
     
-    <div class="uv nc_component">
-        <span class="component_label pre">
-            uv index
-        </span>
-        {{weather.UV}}
+    <div id="uv">
+        <div class="nc_component">         
+           <span class="nc_label pre">uv index</span>
+           <span class="nc_component">{{weather.UV}}</span>
     </div>
     
-    <div class="precip metric nc_component">        
-        <div class="precip_hour">
-            <span class="component_label pre">
+    <div id="precip" class="nc_component_group">        
+        <div id="precip_hour">
+            <span class="nc_label pre">
                 precipitation this hour
             </span>
-            {{weather.precip_1hr_metric}}
-            <span class="compoent_label post">
-                mm
+            
+            <span class="metric">
+                <span class="nc_component">{{weather.precip_1hr_metric}}</span>
+                <span class="compoent_label post">mm</span>
+            </span>        
+            
+            <span class="imperial">
+                <span class="nc_component">{{weather.precip_1hr_in}}</span>
+                <span class="compoent_label post">inches</span>                
             </span>
         </div>
         
-        <div class="precip_today">
-            <span class="component_label pre">
+        <div id="precip_today">
+            <span class="nc_label pre">
                 precipitation today 
             </span> 
-            {{weather.precip_today_metric}}
-            <span class="component_label post">
-                mm
+            
+            <span class="metric">
+                <span class="nc_component">{{weather.precip_today_metric}}</span>
+                <span class="nc_label post">mm</span>            
             </span>
-        </div>
-    </div>  
-    
-    <div class="precip imperial nc_component">        
-        <div class="precip_hour">
-            <span class="component_label pre">
-                precipitation this hour
-            </span>
-            {{weather.precip_1hr_in}}
-            <span class="compoent_label post">
-                inches
-            </span>
-        </div>
-        
-        <div class="precip_today">
-            <span class="component_label pre">
-                precipitation today 
-            </span> 
-            {{weather.precip_today_in}}
-            <span class="component_label post">
-                inches
+            
+            <span class="imperial">
+                <span class="nc_component">{{weather.precip_today_in}}</span>
+                <span class="nc_label post">inches</span>            
             </span>
         </div>
     </div>  

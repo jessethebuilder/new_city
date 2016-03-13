@@ -1,18 +1,125 @@
 <h1>Read Me</h1>
 
 <ul>
-	<li>App is split into block elements that can be position or hid.</li>
-	<li>The top level block element is #new_city_player, which is a fixed width (1920 x 1080).</li>
-	<li>
-		Other Player components are all siblings. Elements have Id values and have child <code>div</code> elements with class <code>component_content</code>. 
-		Components that are clickable have child <code>div</code> elements that have the class <code>click_control</code>.
-		
-		<ol>
-			<li><strong>#top_nav -</strong> Not implemented.</li>
-			<li><strong>#company_logo -</strong> A space for a company logo.</li>
-			<li><strong>#current_time -</strong> The current time. May need localization.</li>
-			<li><strong>#message -</strong> The Message. The primary content.</li> 
-			<li><strong>#duration -</strong> The countdown until Message update.</li>
-			https://docs.angularjs.org/api/ng/filter/date
-		</ol>
+    <li>The top level block element is #new_city_player, which is a fixed width (1920 x 1080).</li>
+    
+	<li>#new_city_player is split into block elements that can be position or hid.
+	   <ol>
+        <li>
+            <strong>Components</strong> have Id values and have child <code>div</code> elements with class <code>nc_component</code>. 
+            Components may have child elements called Lables with the class <code>nc_label</code>. Labels have the additional class of 
+           <code>pre</code> or <code>post</code>, dependeing on wheather the Label appears before or after the <code>nc_component</code> tag.
+        </li>
+        <li>    
+           <strong>Controls</strong> have the class <code>nc_control</code>, and a child element that has the class <code>click_control</code> 
+          or <code>select_control</code>. Controls have children with the classes <code>control_icon</code>, <code>control_text</code> or both. Controls
+          can also have Labels.
+        </li>
+    
+        <li><strong>ComponentGroups</strong> can group Components. They have the class <code>nc_component_group</code>. Specified below.</li> 
+        <li><strong>ControlGroups</strong> can group Controls. They have the class <code>nc_control_group</code>. Specified below.</li>   
+        <li><strong>Tickers</strong> have the class <code>nc_ticker</code>. Tickers have children with class <code>.ticker_inner</code> which has 
+            children called <code>.ticker_item</code>.  
+        </li>    
+	   </ol>    
+	</li>
+   <li><strong>Components, Controls, and ControlGroups</strong>	
+	     <ul>
+			<li><strong>#company_logo</strong> - A space for a company logo.</li>
+			<li><strong>#current_time</strong> - The current time.</li>
+			
+			<li><strong>#message_container</strong>
+			    <ul>
+		      	    <li><strong>#message_name</strong></li>
+		            <li><strong>#message</strong> - The Message</li> 
+                    <li><strong>#page_navigation</strong> ControlGroup
+                        <ul>
+                            <li><strong>#prev_page</strong> - Control</li>
+                            <li><strong>#page_number</strong></li>
+                            <li><strong>#total_pages</strong></li>
+                            <li><strong>#next_page</strong> - Control</li>
+                        </ul>
+                    </li>
+                    <li><strong>#message_controls</strong> - Control Group
+                        <ul>
+                            <li><strong>#duration</strong> - The countdown until Message updates</li>
+                            <li><strong>#timer_controls</strong> - ControlGroup
+                                <ul>
+                                    <li><strong>#start_message_timer</strong> - Control</li>
+                                    <li><strong>#stop_message_timer</strong> - Control</li>
+                                </ul>    
+                            </li>
+                            <li><strong>#message_list</strong> Many links with class <code>click_control</code> and <code>nc_control</code></li>
+                            <li><strong>#message_select</strong></li>
+                            <li><strong>#message_navigation</strong> - ControlGroup
+                                <ul>
+                                    <li><strong>#prev_message</strong> - Control</li>  
+                                    <li><strong>#next_message</strong> - Control</li>  
+                                </ul>
+                            </li>
+                        </ul>    
+                    </li>
+                </ul>    
+                    <li><strong>#toggle_weather</strong></li>
+                    
+                    <li><strong>#weather_components</strong> - ComponentGroup
+                        <li><strong>#weather</strong>
+                            <ul>
+                                <li><strong>#weather_local</strong></li>
+                                <li><strong>#weather_image</strong></li>
+                                <li><strong>#current_temperature</strong>2 child <code>nc_component</code> elements, with classes <code>metric</code> and
+                                    <code>imperial</code> and a child element with the class <code>feels_like</code>
+                                </li>
+                                <li><strong>#weather_detail_components</strong> - ComponentGroup
+                                    <ul>
+                                        <li><strong>#relative_humidity</strong></li>
+                                        <li><strong>#wind</strong> Children with both <code>imperial</code> and <code>metric</code> classes, as well as a
+                                            class called <code>wind_direction</code>
+                                        </li>
+                                        <li><strong>#uv</strong></li>
+                                        <li><strong>#precip</strong> - ComponentGroup 
+                                            <ul>
+                                                <li><strong>#precip_hour</strong>
+                                                    Has children with classes <code>metric</code> and <code>imperial</code>
+                                                </li>
+                                                <li><strong>#precip_day</strong>
+                                                    Has children with classes <code>metric</code> and <code>imperial</code>    
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li><strong>#weather_forecast</strong>
+                            <ul>
+                                <li><strong>#forecast_local</strong></li>
+                                <li><strong>#forecast_days</strong> - ComponentGroup
+                                    <ul>
+                                        <li>
+                                            <strong>.forecast_day</strong> - ComponentGroup
+                                            <ul>
+                                                <li><strong>.date</strong></li>
+                                                <li><strong>.image</strong></li>
+                                                <li><strong>.conditions</strong></li>
+                                                <li><strong>.temperature</strong> ComponentGroup
+                                                    <ul>
+                                                        <li><strong>.high_low.high</strong> <code>imperial</code> and <code>metric</code> classes</li>
+                                                        <li><strong>.high_low.low</strong> <code>imperial</code> and <code>metric</code> classes</li>   
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>    
+                                </li>
+                            </ul>
+                        </li>    
+                    </li>
+                    
+                    <li><strong>#ticker1</strong> 
+                    </li>
+                    <li><strong>#ticker2</strong></li>
+			</li>
+		</ul>
 	</li>

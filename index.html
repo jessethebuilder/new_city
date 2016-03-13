@@ -4,8 +4,7 @@
     <title>New City Media - Player</title>
     
     <script src="js/vendor/jquery/jquery-2.2.0.min.js"></script>
-    
-    <!-- <script src="js/vendor/web-ticker.js"></script> -->
+ 
     
     <script src="js/vendor/marquee/jquery.marquee.js"></script>
     
@@ -25,12 +24,13 @@
    <link rel="stylesheet" href="styles/app.css"></link>
 </head>
 
-<body> 
-<div id="new_city_player" ng-app="newCityPlayer">       
-    <div id="company_logo" class="nc_component">
+<body>
+    <div id="new_city_player" ng-app="newCityPlayer">
+    <div id="company_logo">
+        <div class="nc_component"></div>
     </div>
     
-    <div id="current_time" ng-controller="clockController">
+    <div id="current_time" class="nc_component" ng-controller="clockController">
         <div class="nc_component">
             {{current_time | date:current_time_format}}
         </div>
@@ -39,12 +39,12 @@
     <div id="message_container" ng-view message-container></div> 
     
     <div id="toggle_weather">
-        <span class="click_control">
+        <span class="click_control ng_control">
             <span class="control_text">weather</span>
         </span>        
     </div>
     
-    <div id="weather_components">
+    <div id="weather_components" class="component_group">
         <div id="weather" ng-controller="currentWeatherController" current-weather></div>
         <div id="weather_forecast" ng-controller="weatherForecastController" weather-forecasts></div>
     </div>

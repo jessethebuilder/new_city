@@ -43,12 +43,21 @@ body {
 
 #message_controls #duration {
   padding-left: 30px; }
-  #message_controls #duration .component_label {
+  #message_controls #duration .nc_label {
     display: none; }
 #message_controls #timer_controls {
   position: absolute;
   top: 40px;
   left: 100px; }
+#message_controls #message_list {
+  position: absolute;
+  top: 50px;
+  left: 170px; }
+  #message_controls #message_list .message_name {
+    display: block;
+    font-size: 18pt; }
+  #message_controls #message_list .message_name.active {
+    color: lightgrey; }
 #message_controls #message_list {
   display: none; }
 #message_controls #message_select {
@@ -62,7 +71,7 @@ body {
     font-weight: 600; }
   #message_controls #message_select option {
     font-size: 16pt; }
-  #message_controls #message_select .component_label.pre {
+  #message_controls #message_select .nc_label.pre {
     display: none; }
 #message_controls #message_navigation {
   padding-left: 30px; }
@@ -126,7 +135,7 @@ body {
     padding-left: 10px;
     font-size: 22px;
     text-transform: capitalize; }
-    #weather .weather_detail_components .nc_component .component_label {
+    #weather .weather_detail_components .nc_component .nc_label {
       color: lightgrey; }
 
 #weather_forecast {
@@ -154,7 +163,7 @@ body {
       #weather_forecast .forecast_days .forecast_day .high_low {
         font-size: 20px;
         text-align: center; }
-        #weather_forecast .forecast_days .forecast_day .high_low .component_label {
+        #weather_forecast .forecast_days .forecast_day .high_low .nc_label {
           font-weight: 600; }
     #weather_forecast .forecast_days .high_low {
       display: inline-block; }
@@ -183,8 +192,8 @@ body {
   #ticker2 .ticker_item:last-child {
     padding-right: 0px; }
 
-.nc_component {
-  font-size: 40px; }
+.nc_component, .nc_control {
+  font-size: 30pt; }
 
 .click_control .control_text {
   display: none; }
