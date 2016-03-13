@@ -291,12 +291,9 @@ body{
   width: 100%;
   .ticker_inner{
     .ticker_item{
-      padding-right: 1920px;
+      // padding-right: 1920px;
     }
-    
-    .ticker_item:last-child{
-      padding-right: 0px;
-    }
+
   }
 }
 #ticker1{
@@ -306,6 +303,14 @@ body{
   position: absolute;
   color: white;
   top: 3px;
+  
+  .ticker_item{
+    padding-right: 1000px;
+  }
+  
+  .ticker_item:last-child{
+    padding-right: 0px;
+  }
 }
 
 #ticker2{
@@ -315,6 +320,14 @@ body{
   background-color: blue;
   position: absolute;
   top: 960px;
+  
+  .ticker_item{
+    // padding-right: 600px;
+  }
+  
+  .ticker_item:last-child{
+    padding-right: 0px;
+  }
 }
   
 // }

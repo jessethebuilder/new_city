@@ -161,10 +161,6 @@ body {
 
 .nc_ticker {
   width: 100%; }
-  .nc_ticker .ticker_inner .ticker_item {
-    padding-right: 1920px; }
-  .nc_ticker .ticker_inner .ticker_item:last-child {
-    padding-right: 0px; }
 
 #ticker1 {
   font-weight: 100%;
@@ -173,6 +169,10 @@ body {
   position: absolute;
   color: white;
   top: 3px; }
+  #ticker1 .ticker_item {
+    padding-right: 1000px; }
+  #ticker1 .ticker_item:last-child {
+    padding-right: 0px; }
 
 #ticker2 {
   font-size: 30pt;
@@ -180,6 +180,8 @@ body {
   background-color: blue;
   position: absolute;
   top: 960px; }
+  #ticker2 .ticker_item:last-child {
+    padding-right: 0px; }
 
 .nc_component {
   font-size: 40px; }
