@@ -286,21 +286,36 @@ body{
 //--- Tickers ---
 // #tickers{
   
-  
-  .nc_ticker{
-    display: none;
-    li{
-      font-size: 18pt;
+
+.nc_ticker{
+  width: 100%;
+  .ticker_inner{
+    .ticker_item{
+      padding-right: 1920px;
+    }
+    
+    .ticker_item:last-child{
+      padding-right: 0px;
     }
   }
-  #ticker1{
-    position: absolute;
-    top: 930px;
-  }
-  
-  #ticker2{
-    
-  }
+}
+#ticker1{
+  font-weight: 100%;
+  font-size: 14pt;
+  background-color: red;
+  position: absolute;
+  color: white;
+  top: 3px;
+}
+
+#ticker2{
+  font-size: 30pt;
+   
+  color: $light-contrast-color;
+  background-color: blue;
+  position: absolute;
+  top: 960px;
+}
   
 // }
 

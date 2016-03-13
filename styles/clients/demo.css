@@ -160,13 +160,26 @@ body {
       display: inline-block; }
 
 .nc_ticker {
-  display: none; }
-  .nc_ticker li {
-    font-size: 18pt; }
+  width: 100%; }
+  .nc_ticker .ticker_inner .ticker_item {
+    padding-right: 1920px; }
+  .nc_ticker .ticker_inner .ticker_item:last-child {
+    padding-right: 0px; }
 
 #ticker1 {
+  font-weight: 100%;
+  font-size: 14pt;
+  background-color: red;
   position: absolute;
-  top: 930px; }
+  color: white;
+  top: 3px; }
+
+#ticker2 {
+  font-size: 30pt;
+  color: lightgrey;
+  background-color: blue;
+  position: absolute;
+  top: 960px; }
 
 .nc_component {
   font-size: 40px; }

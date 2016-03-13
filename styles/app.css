@@ -3,7 +3,7 @@
   width: 1920px;
   height: 1080px; }
 
-.click_control, .select_control {
+.click_control, .select_control, .nc_ticker {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -13,5 +13,10 @@
 
 .click_control:hover {
   cursor: pointer; }
+
+.nc_ticker {
+  overflow: hidden; }
+  .nc_ticker .ticker_inner {
+    overflow: hidden; }
 
 /*# sourceMappingURL=app.css.map */

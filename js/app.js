@@ -368,13 +368,13 @@ function($scope, $http, $interval, PlayerData) {
 
 newCityPlayer.directive('ticker', function(){
 	return {
-		templateUrl: 'partials/ticker.html',
 		scope:{
-			ticker: '='	
+			'ticker': '='
 		},
+		templateUrl: 'partials/ticker.html',
 		controller: ['$scope', '$http', 'PlayerData', function($scope, $http, PlayerData){
 			$scope.setData = function(){
-				PlayerData.getData().then(function(player_data, status){			
+				PlayerData.getData().then(function(player_data, status){	
 					$http.get(player_data.raw.data[1].scrollers[$scope.ticker_index]).success(function(data){
 						$scope.data = data;
 					}).error(function(data, status){
@@ -384,22 +384,33 @@ newCityPlayer.directive('ticker', function(){
 			};
 			
 			$scope.setData();
+
 		}],
 		link: function($scope, e, attrs, controller){
 			// Set ticker_index for controller above
 			$scope.ticker_index = parseInt(attrs.ticker.replace(/ticker/, '')) - 1;
 			
-			window.setTimeout(function(){
+
+			$scope.startTicker = function(){
+				var ticker_inner = jQuery(e).find('.ticker_inner');
+				ticker_inner.hide();
+			
+				window.setTimeout(function(){
+				ticker_inner.show();
+				jQuery(e).marquee({
+					speed: 6000, 
+					// speed: 2000,
+					pauseOnHover: true,
+					});			
+				}, 500);
 				
-				jQuery(e).find('ul.ticker_list').webTicker();			
-			}, 2000);
+				jQuery(e).bind('finished', function(){
+					$scope.setData();
+				});
+			};
 			
-			// console.log($scope.data);
-			
-			// Use data got with ticker_index
-			// if(typeof $scope.data != 'undefined'){
-				// console.log('x');
-			// }
+			$scope.startTicker();
+		
 		}
 	};	
 });
