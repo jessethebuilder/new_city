@@ -269,6 +269,10 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 					}
 				}
 			});
+			
+			// jQuery(box).closest('#message').sortable({
+			
+			// });
 		}
 	};
 }]);

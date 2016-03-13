@@ -92,6 +92,9 @@ body {
 #page_number_seperator, #total_pages {
   display: none; }
 
+#weather_components {
+  display: none; }
+
 .metric {
   display: none; }
 
