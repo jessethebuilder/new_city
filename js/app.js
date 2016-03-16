@@ -1,3 +1,45 @@
+//------------------------ Hammer --------------------------------------------
+function enableHammer(box){
+	Hammer(jQuery(box).get(0)).on('dragstart', function(event) {
+	  console.log('dragstart', event);
+	});
+	
+	Hammer(jQuery(box).get(0)).on('drag', function(event){
+	  // console.log('drag', event.gesture.deltaX, event.gesture.deltaY)
+	  var target = event.target;
+	  jQuery(target).css({
+	    'transform': 'translate(' + event.gesture.deltaX + 'px,' + event.gesture.deltaY + 'px)'
+	  });
+	});
+	
+	Hammer(document.body).on('release', function(event){
+	  console.log('release', event);
+	  event.gesture.preventDefault();
+	});
+	
+	Hammer(document.body).on('dragend', function(event) {
+	  console.log('dragend', event);
+	  
+	  jQuery(event.target).css({'transform': 'translate(0,0)'});
+	  // debugger;
+	  var dropEl = document.elementFromPoint(event.gesture.center.pageX, event.gesture.center.pageY);
+	  console.log('dropped on', dropEl);
+	  if (jQuery(dropEl).hasClass('drop-target')) {
+	    console.log('dropped on drop target');
+	  }
+	});
+	jQuery(document.body).on('mousedown', '[draggable]', function(event){
+	
+	  console.log('mousedown', event);
+	});
+	jQuery(document.body).on('mouseup', '[draggable]', function(event){
+	  
+	  console.log('mouseup', event);
+	  event.preventDefault();
+	});
+}
+//------------------------ End Hammer Mod -------------------------------------
+
 //--- Config Vars ---
 var data_url = 'temp/test.json';
 var client_name = window.location.hash.replace(/^#\//, '');
@@ -198,7 +240,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 	$scope.pageNavigation = function() {
 		var pages = jQuery('.converted_page');
 
-		if (pages.length > 0) {
+		if (pages.length > 1) {
 			pages.hide();
 			jQuery('#page_navigation').show();
 			$scope.setPageNumber(0);
@@ -254,25 +296,41 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 
 	//--- Touch Features ---
 	$scope.enableTouch = function(box) {
+		var m = $(box).closest('#message');
+		
 		if (!touch_has_been_enabled) {
 			touch_has_been_enabled = true;
-			jQuery(box).closest('#message').swipe({
+			
+			// enableHammer(m.find(message_inner));
+			// // var h = new Hammer(box);
+			// var el = document.getElementById('message');
+			// var h = new Hammer(el, {
+				// behavior:{
+					// userDrag: true
+				// }
+			// });
+			// h.on('swipe', function(ev){
+				// console.log(ev);
+			// });
+// 			
+			
+			m.find('.nc_component').swipe({
 				swipe : function(event, direction, distance, duration, fingerCount) {
-					if (direction === 'right') {
-						$scope.setNextMessage();
-					} else if (direction === 'left') {
-						$scope.setPrevMessage();
-					} else if (direction === 'down') {
-						$scope.setNextPage();
-					} else if (direction === 'up') {
-						$scope.setPrevPage();
-					}
+					if(distance > 200){
+						if (direction === 'right') {
+							$scope.setNextMessage();
+						} else if (direction === 'left') {
+							$scope.setPrevMessage();
+						} else if (direction === 'down') {
+							$scope.setNextPage();
+						} else if (direction === 'up') {
+							$scope.setPrevPage();
+						}
+					}	
 				}
 			});
 			
-			// jQuery(box).closest('#message').sortable({
-			
-			// });
+			m.draggable();
 		}
 	};
 }]);

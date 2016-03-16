@@ -92,16 +92,13 @@ body {
 #page_number_seperator, #total_pages {
   display: none; }
 
-#weather_components {
-  display: none; }
-
 .metric {
   display: none; }
 
 #toggle_weather {
   position: absolute;
   top: 155px;
-  left: 14px; }
+  left: 332px; }
   #toggle_weather .click_control .control_text {
     display: inline;
     font-size: 24pt;

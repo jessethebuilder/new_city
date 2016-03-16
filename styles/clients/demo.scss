@@ -163,7 +163,7 @@ body{
 
 //--- Weather ---
 #weather_components{
-  display: none;
+  // display: none; 
 }
 
 .metric{
@@ -173,7 +173,7 @@ body{
 #toggle_weather{
   position: absolute;
   top: 155px;
-  left: 14px;
+  left: 332px;
   
   .click_control{
     .control_text{
