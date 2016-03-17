@@ -124,7 +124,11 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 
 	$scope.setData();
 
-	$scope.setMessage = function(index) {
+	$scope.setMessage = function(index, stop_message_timer) {
+		if(stop_message_timer){
+		 $scope.stopMessageTimer();
+		}
+		
 		$scope.message_index = index;
 		$scope.raw_message = $scope.messages[$scope.message_index];
 		$scope.message = $sce.trustAsHtml($scope.raw_message.message);
@@ -139,23 +143,23 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		$scope.startMessage();
 	};
 
-	$scope.setNextMessage = function() {
+	$scope.setNextMessage = function(stop_message_timer) {
 		var i = parseInt($scope.message_index);
 		i++;
 		if (i >= $scope.messages.length) {
 			$scope.setData();
 		} else {
-			$scope.setMessage(i);
+			$scope.setMessage(i, stop_message_timer);
 		}
 	};
 
-	$scope.setPrevMessage = function() {
+	$scope.setPrevMessage = function(stop_message_timer) {
 		var i = parseInt($scope.message_index);
 		if (i <= 0) {
 			i = $scope.messages.length;
 		}
 		i--;
-		$scope.setMessage(i);
+		$scope.setMessage(i, stop_message_timer);
 	};
 
 	//---------------- Timer functions -------------
@@ -248,15 +252,22 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 			var counter = 0;
 			
 			while(p.length > 0){
-			
 				// Find last shown element
+					console.log(p.length);
 				for(var i = 0; i < p.length; i++){
-					if(jQuery(p[i]).position().top > m.height() - 40){
+					// console.log(p);
+					// console.log(jQuery(p[i]));
+					// console.log(p.last());
+					if(jQuery(p[i]).position().top >= m.height() - 50 || i == p.length - 1){
 						var div = jQuery('<div/>').addClass('converted_page');
-						i--;
-						console.log(div);
+						
+						if(i != p.length -1){
+							i--;
+						}
+						
 						for(i; i >= 0; i--){
-							jQuery(p[i]).appendTo(div);
+							counter++;
+							jQuery(p[i]).prependTo(div);
 						}
 						
 						jQuery(div).appendTo(outer);
@@ -265,15 +276,8 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 				}
 				
 				p = jQuery(m).find('p');
-			
-				// debug	
-				counter++;
-				if(counter > 100){
-					console.log('break');
-					break;
-				}	
 			}
-			
+			console.log(counter);
 			jQuery('#message_inner').html(jQuery(outer).html());
 			jQuery(outer).detach();
 		} 
@@ -295,7 +299,6 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 	
 	$scope.pageNavigation = function() {
 		var pages = $scope.makePages();
-		// console.log(pages);
 		
 		if (pages.length > 1) {
 			pages.hide();

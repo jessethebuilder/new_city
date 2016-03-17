@@ -39,7 +39,7 @@ body {
   width: 75%;
   left: 25%;
   text-align: center;
-  top: 903px; }
+  top: 930px; }
 
 #message_controls #duration {
   padding-left: 30px; }
@@ -189,7 +189,7 @@ body {
   color: lightgrey;
   background-color: blue;
   position: absolute;
-  top: 960px; }
+  top: 985px; }
   #ticker2 .ticker_item:last-child {
     padding-right: 0px; }
 

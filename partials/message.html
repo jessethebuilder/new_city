@@ -77,7 +77,7 @@
             <select id="message_name_select" 
                     ng-options="message.name for message in messages" 
                     ng-model="selectedMessage" 
-                    ng-change="setMessage(messages.indexOf(selectedMessage))">
+                    ng-change="setMessage(messages.indexOf(selectedMessage, true))">
             </select>
         </span>
     </div>
