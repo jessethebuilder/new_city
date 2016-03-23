@@ -253,11 +253,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 			
 			while(p.length > 0){
 				// Find last shown element
-					console.log(p.length);
 				for(var i = 0; i < p.length; i++){
-					// console.log(p);
-					// console.log(jQuery(p[i]));
-					// console.log(p.last());
 					if(jQuery(p[i]).position().top >= m.height() - 50 || i == p.length - 1){
 						var div = jQuery('<div/>').addClass('converted_page');
 						
@@ -277,7 +273,6 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 				
 				p = jQuery(m).find('p');
 			}
-			console.log(counter);
 			jQuery('#message_inner').html(jQuery(outer).html());
 			jQuery(outer).detach();
 		} 
