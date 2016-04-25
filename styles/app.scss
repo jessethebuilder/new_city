@@ -2,24 +2,56 @@
   position: relative;
   width: 1920px;
   height: 1080px;
-}
-
-.click_control, .select_control, .nc_ticker{
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;  
-}
-
-.click_control:hover{
-  cursor: pointer;
-}
-
-.nc_ticker{ 
+  overflow: hidden;
+  
+  #message_container{
     overflow: hidden;
-    .ticker_inner{
-      overflow:hidden;
+  }
+  
+  
+  
+  #message{
+    
+    #message_inner{
     }
+    
+    .nc_component{
+      overflow:hidden;   
+      position: relative;
+      height: 100%;
+    }
+    
+    .converted_page{
+    }
+    
+    p:first-child{
+      margin-top: 0px;
+    }
+    .ppt_image{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .click_control, .select_control, .nc_ticker{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;  
+  }
+  
+  .click_control:hover{
+    cursor: pointer;
+  }
+  
+  .nc_ticker{ 
+      overflow: hidden;
+      .ticker_inner{
+        overflow:hidden;
+      }
+  }
 }
+ 

@@ -1,45 +1,3 @@
-//------------------------ Hammer --------------------------------------------
-function enableHammer(box){
-	Hammer(jQuery(box).get(0)).on('dragstart', function(event) {
-	  console.log('dragstart', event);
-	});
-	
-	Hammer(jQuery(box).get(0)).on('drag', function(event){
-	  // console.log('drag', event.gesture.deltaX, event.gesture.deltaY)
-	  var target = event.target;
-	  jQuery(target).css({
-	    'transform': 'translate(' + event.gesture.deltaX + 'px,' + event.gesture.deltaY + 'px)'
-	  });
-	});
-	
-	Hammer(document.body).on('release', function(event){
-	  console.log('release', event);
-	  event.gesture.preventDefault();
-	});
-	
-	Hammer(document.body).on('dragend', function(event) {
-	  console.log('dragend', event);
-	  
-	  jQuery(event.target).css({'transform': 'translate(0,0)'});
-	  // debugger;
-	  var dropEl = document.elementFromPoint(event.gesture.center.pageX, event.gesture.center.pageY);
-	  console.log('dropped on', dropEl);
-	  if (jQuery(dropEl).hasClass('drop-target')) {
-	    console.log('dropped on drop target');
-	  }
-	});
-	jQuery(document.body).on('mousedown', '[draggable]', function(event){
-	
-	  console.log('mousedown', event);
-	});
-	jQuery(document.body).on('mouseup', '[draggable]', function(event){
-	  
-	  console.log('mouseup', event);
-	  event.preventDefault();
-	});
-}
-//------------------------ End Hammer Mod -------------------------------------
-
 //--- Config Vars ---
 var data_url = 'temp/test.json';
 var client_name = window.location.hash.replace(/^#\//, '');
@@ -78,16 +36,17 @@ function($http, $q) {
 
 newCityPlayer.directive('message', function() {
 	return {
+		// priority: 100,
 		link : function($scope, element, attrs) {
 			// following block is to enable pageNavigation(), which needs a number of images, served by ngRepeat, but not by
 			// ngSrc, because the images are served by the JSON feed.
-			var watch = $scope.$watch(function() {
+			var watch = $scope.$watch(function() {	
+			
 				return element.children().length;
 			}, function() {
 				$scope.$evalAsync(function() {
-					$scope.enableTouch(element);
-
 					$scope.pageNavigation();
+					$scope.enableTouch();
 				});
 			});
 		},
@@ -125,12 +84,14 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 	$scope.setData();
 
 	$scope.setMessage = function(index, stop_message_timer) {
+		// $('#message').find('.nc_component').css('visibility', 'visible');
 		if(stop_message_timer){
 		 $scope.stopMessageTimer();
 		}
 		
 		$scope.message_index = index;
 		$scope.raw_message = $scope.messages[$scope.message_index];
+		
 		$scope.message = $sce.trustAsHtml($scope.raw_message.message);
 		$scope.message_name = $scope.raw_message.name;
 
@@ -141,6 +102,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		$scope.selectedMessage = $scope.raw_message;
 
 		$scope.startMessage();
+		
 	};
 
 	$scope.setNextMessage = function(stop_message_timer) {
@@ -241,6 +203,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		$scope.setPage(-1);
 	};
 	
+
 	$scope.splitHtmlPages = function(){
 		var m = jQuery('#message');
 		var inner = jQuery('#message_inner');
@@ -292,11 +255,19 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		return pages;
 	};
 	
+	$scope.centerPptImages = function(){
+		var imgs = $('.ppt_image');
+		// imgs.hide();
+		imgs.closest('.converted_page').css('text-align', 'center');
+		// imgs.css('visibility', 'visible');
+	};
+	
 	$scope.pageNavigation = function() {
 		var pages = $scope.makePages();
 		
 		if (pages.length > 1) {
 			pages.hide();
+			// $scope.centerPptImages();
 			jQuery('#page_navigation').show();
 			$scope.setPageNumber(0);
 			$scope.multipage = true;
@@ -306,7 +277,6 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		}
 
 		$scope.total_pages = pages.length;
-
 		jQuery(pages).first().show();
 	};
 
@@ -319,18 +289,32 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		}).animate({
 			opacity : 1.0
 		}, 1500, function() {
-			// $scope.pageNavigation();
 		});
+	};
+	
+	$scope.slideUpMessage = function(){
+		jQuery('#message').find('.nc_component').css({
+			bottom : -750,
+			visibility : 'visible'
+		}).animate({
+			bottom : 0
+		}, 750, function() {
+		});		
 	};
 
 	$scope.messageTransition = function() {
-		if ( typeof $scope.transition != 'undefined') {
-			switch($scope.transition) {
+		switch($scope.transition) {
 			case 'fadein':
 				$scope.fadeInMessage();
-			}
+				break;
+				
+			case 'slideUp':
+			 	$scope.slideUpMessage(); 
+			 	break;
+			 		
+			default:
+				$scope.fadeInMessage();
 		}
-
 	};
 
 	$scope.setMessageList = function(index) {
@@ -340,7 +324,11 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 	};
 
 	$scope.startMessage = function() {
-		// jQuery('#message').css('visibility', 'hidden');
+		jQuery('#page_navigation').hide();
+		
+		window.setTimeout(function(){
+			$scope.pageNavigation();
+		}, 500);
 
 		$scope.messageTransition();
 
@@ -348,44 +336,63 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 	};
 
 	var touch_has_been_enabled = false;
+	var message_box_left = null;
 
 	//--- Touch Features ---
-	$scope.enableTouch = function(box) {
-		var m = $(box).closest('#message');
+	$scope.enableTouch = function() {
+		var m = $('#message');
 		
 		if (!touch_has_been_enabled) {
 			touch_has_been_enabled = true;
-			
-			// enableHammer(m.find(message_inner));
-			// // var h = new Hammer(box);
-			// var el = document.getElementById('message');
-			// var h = new Hammer(el, {
-				// behavior:{
-					// userDrag: true
-				// }
-			// });
-			// h.on('swipe', function(ev){
-				// console.log(ev);
-			// });
-// 			
-			
-			m.find('.nc_component').swipe({
-				swipe : function(event, direction, distance, duration, fingerCount) {
-					if(distance > 200){
-						if (direction === 'right') {
-							$scope.setNextMessage();
-						} else if (direction === 'left') {
-							$scope.setPrevMessage();
-						} else if (direction === 'down') {
-							$scope.setNextPage();
-						} else if (direction === 'up') {
-							$scope.setPrevPage();
+					
+			m.swipe({
+				swipeStatus: function(event, phase, direction, distance){	
+					if(phase == 'move'){
+						console.log(distance);
+						if(message_box_left == null){
+							message_box_left = parseInt($(m).css('left'));
+						}	
+						if(direction == 'right'){
+							$(m).css('left', distance + message_box_left);
+						} else {
+							$(m).css('left', message_box_left - distance);	
 						}
-					}	
+					}
+					
+					if(phase == 'end'){
+						var current_message_left = parseInt($(m).css('left')); 
+						
+						if(distance > 400){
+							$(m).find('.nc_component').css('visibility', 'hidden');
+							
+							if(direction == 'right'){		
+								$(m).css({
+									left: current_message_left
+								}).animate({
+									left: current_message_left + 1000
+								}, 400, function(){
+									$scope.setNextMessage();		
+									$(m).css('left', message_box_left);		
+								});							
+							} else if(direction == 'left'){
+								$(m).css({
+									left: current_message_left
+								}).animate({
+									left: current_message_left - 1000
+								}, 400, function(){
+									$scope.setPrevMessage();
+									$(m).css('left', message_box_left);
+								});
+							}
+			
+						} else {
+							$(m).css('left', message_box_left);
+						}	
+						
+						
+					}
 				}
 			});
-			
-			// m.draggable();
 		}
 	};
 }]);

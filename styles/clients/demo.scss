@@ -5,26 +5,26 @@ $light_contrast_color: lightgrey;
 $background_color: white;
 
 body{
-	background-color: $dark_contrast_color;
+  background-color: $dark_contrast_color;
 }
 /*--- Player ---*/
 #new_city_player{ 
-	background-color: $background_color;
-	
+  background-color: $background_color;
+  
 } 
 
 /*--- Message ---*/
 #message_name{
-	position: absolute;
-	top: -40px;
-  padding-top: 40px;	
-	.nc_component{
+  position: absolute;
+  top: -40px;
+  padding-top: 40px;  
+  .nc_component{
   font-size: 70pt;
-	  
-	}
-	// line-height: 100px;
-	font-weight: 800;
-	
+    
+  }
+  // line-height: 100px;
+  font-weight: 800;
+  
   text-align: center;
   width: 75%;
   left: 25%;
@@ -45,21 +45,21 @@ body{
   width: 75%;
   left: 25%;
 
-	.ppt_image{
-		// width: 300px;
-		height: 100%;
-	}
-	
-	.converted_page{
-	  text-align: center;
-	  height: 800px;
-	}
-	
-	video{
-	  width: 100%;
-	  height: 100%;
-	  margin-top: 90px;
-	}
+  .ppt_image{
+    // width: 300px;
+    height: 100%;
+  }
+  
+  .converted_page{
+    // text-align: center;
+    height: 800px;
+  }
+  
+  video{
+    width: 100%;
+    height: 100%;
+    margin-top: 90px;
+  }
 } // #message 
 
 #page_navigation{
@@ -142,7 +142,7 @@ body{
 
 //--- Clock ---
 #auto_update_timer, #update_time{
-	display: none;
+  display: none;
 }
 
 #current_time{
@@ -369,5 +369,5 @@ body{
 }
 
 p{
-  margin: 0;
+  // margin: 0;
 }

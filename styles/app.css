@@ -1,22 +1,32 @@
 #new_city_player {
   position: relative;
   width: 1920px;
-  height: 1080px; }
-
-.click_control, .select_control, .nc_ticker {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none; }
-
-.click_control:hover {
-  cursor: pointer; }
-
-.nc_ticker {
+  height: 1080px;
   overflow: hidden; }
-  .nc_ticker .ticker_inner {
+  #new_city_player #message_container {
     overflow: hidden; }
+  #new_city_player #message .nc_component {
+    overflow: hidden;
+    position: relative;
+    height: 100%; }
+  #new_city_player #message p:first-child {
+    margin-top: 0px; }
+  #new_city_player #message .ppt_image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; }
+  #new_city_player .click_control, #new_city_player .select_control, #new_city_player .nc_ticker {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none; }
+  #new_city_player .click_control:hover {
+    cursor: pointer; }
+  #new_city_player .nc_ticker {
+    overflow: hidden; }
+    #new_city_player .nc_ticker .ticker_inner {
+      overflow: hidden; }
 
 /*# sourceMappingURL=app.css.map */

@@ -32,32 +32,31 @@
 
 <body>
     <div id="new_city_player" ng-app="newCityPlayer">
-    <div id="company_logo">
-        <div class="nc_component"></div>
-    </div>
-    
-    <div id="current_time" class="nc_component" ng-controller="clockController">
-        <div class="nc_component">
-            {{current_time | date:current_time_format}}
+        <div id="company_logo">
+            <div class="nc_component"></div>
         </div>
-    </div>
-   
-    <div id="message_container" ng-view message-container></div> 
-    
-    <div id="toggle_weather">
-        <span class="click_control ng_control">
-            <span class="control_text">weather</span>
-        </span>        
-    </div>
-    
-    <div id="weather_components" class="component_group">
-        <div id="weather" ng-controller="currentWeatherController" current-weather></div>
-        <div id="weather_forecast" ng-controller="weatherForecastController" weather-forecasts></div>
-    </div>
-     
-    <div id="ticker1" class="nc_ticker" ticker="ticker1"></div>   
-    <div id="ticker2" class="nc_ticker" ticker="ticker2"></div>   
-</div>  
-
+        
+        <div id="current_time" class="nc_component" ng-controller="clockController">
+            <div class="nc_component">
+                {{current_time | date:current_time_format}}
+            </div>
+        </div>
+       
+        <div id="message_container" ng-view message-container></div> 
+        
+        <div id="toggle_weather">
+            <span class="click_control ng_control">
+                <span class="control_text">weather</span>
+            </span>        
+        </div>
+        
+        <div id="weather_components" class="component_group">
+            <div id="weather" ng-controller="currentWeatherController" current-weather></div>
+            <div id="weather_forecast" ng-controller="weatherForecastController" weather-forecasts></div>
+        </div>
+         
+        <div id="ticker1" class="nc_ticker" ticker="ticker1"></div>   
+        <div id="ticker2" class="nc_ticker" ticker="ticker2"></div>   
+    </div>  
 </body>
 </html>

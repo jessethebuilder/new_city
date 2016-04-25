@@ -27,7 +27,6 @@ body {
   #message .ppt_image {
     height: 100%; }
   #message .converted_page {
-    text-align: center;
     height: 800px; }
   #message video {
     width: 100%;
@@ -201,8 +200,5 @@ body {
 
 .click_control:hover {
   color: green; }
-
-p {
-  margin: 0; }
 
 /*# sourceMappingURL=demo.css.map */
