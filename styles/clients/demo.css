@@ -40,42 +40,50 @@ body {
   text-align: center;
   top: 930px; }
 
-#message_controls #duration {
-  padding-left: 30px; }
-  #message_controls #duration .nc_label {
+#message_controls {
+  position: relative;
+  top: -780px; }
+  #message_controls #message_navigation {
+    position: relative;
+    top: 40px; }
+  #message_controls #duration {
+    position: relative;
+    top: 30px;
+    padding-left: 35px; }
+    #message_controls #duration .nc_label {
+      display: none; }
+  #message_controls #timer_controls {
+    position: absolute;
+    top: 40px;
+    left: 100px; }
+  #message_controls #message_list {
+    position: absolute;
+    top: 50px;
+    left: 170px; }
+    #message_controls #message_list .message_name {
+      display: block;
+      font-size: 18pt; }
+    #message_controls #message_list .message_name.active {
+      color: lightgrey; }
+  #message_controls #message_list {
     display: none; }
-#message_controls #timer_controls {
-  position: absolute;
-  top: 40px;
-  left: 100px; }
-#message_controls #message_list {
-  position: absolute;
-  top: 50px;
-  left: 170px; }
-  #message_controls #message_list .message_name {
-    display: block;
-    font-size: 18pt; }
-  #message_controls #message_list .message_name.active {
-    color: lightgrey; }
-#message_controls #message_list {
-  display: none; }
-#message_controls #message_select {
-  position: absolute;
-  left: 160px;
-  top: 34px; }
-  #message_controls #message_select select {
-    width: 310px;
-    font-size: 16pt;
-    padding: 10px;
-    font-weight: 600; }
-  #message_controls #message_select option {
-    font-size: 16pt; }
-  #message_controls #message_select .nc_label.pre {
-    display: none; }
-#message_controls #message_navigation {
-  padding-left: 30px; }
-  #message_controls #message_navigation #next_message .control_icon {
-    padding-left: 20px; }
+  #message_controls #message_select {
+    position: absolute;
+    left: 160px;
+    top: 34px; }
+    #message_controls #message_select select {
+      width: 310px;
+      font-size: 16pt;
+      padding: 10px;
+      font-weight: 600; }
+    #message_controls #message_select option {
+      font-size: 16pt; }
+    #message_controls #message_select .nc_label.pre {
+      display: none; }
+  #message_controls #message_navigation {
+    padding-left: 30px; }
+    #message_controls #message_navigation #next_message .control_icon {
+      padding-left: 20px; }
 
 #auto_update_timer, #update_time {
   display: none; }

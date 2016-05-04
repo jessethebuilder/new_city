@@ -36,6 +36,10 @@ body{
 }
 
 #message{
+  #message_inner{
+    // padding-bottom: 20px;
+  }
+  
   height: 780px;
   background-color: $light_contrast_color;
   
@@ -72,11 +76,18 @@ body{
 
 #message_controls{
   // margin-bottom: 70px;
-  // position: absolute;
-  // top: 700px;
+  position: relative;
+  top: -780px;
+  
+  #message_navigation{
+    position: relative;
+    top: 40px;
+  }
   
   #duration{
-    padding-left: 30px;
+    position: relative;
+    top: 30px;
+    padding-left: 35px;
     .nc_label{
       display: none;
     }

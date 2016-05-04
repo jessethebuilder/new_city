@@ -32,9 +32,11 @@
       margin-left: auto;
       margin-right: auto;
     }
+    
   }
 
-  .click_control, .select_control, .nc_ticker{
+
+  .click_control, .select_control, .nc_ticker, #message{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;

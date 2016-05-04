@@ -92,7 +92,14 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		$scope.message_index = index;
 		$scope.raw_message = $scope.messages[$scope.message_index];
 		
-		$scope.message = $sce.trustAsHtml($scope.raw_message.message);
+		// console.log($scope.raw_message);
+		
+		var msg = $scope.raw_message.message;
+		 // + "{{messageTransition}}";
+		
+		$scope.message = $sce.trustAsHtml(msg);
+		
+		
 		$scope.message_name = $scope.raw_message.name;
 
 		$scope.duration = $scope.raw_message.duration;
@@ -102,7 +109,6 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		$scope.selectedMessage = $scope.raw_message;
 
 		$scope.startMessage();
-		
 	};
 
 	$scope.setNextMessage = function(stop_message_timer) {
@@ -210,14 +216,16 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		var pages = [];
 		
 		if(m.height() < inner.height()){
-			var outer = jQuery('<div/>').attr('id', 'page_splitter_temp').appendTo('body');
-			var p = jQuery(m).find('p');
+			var outer = jQuery('<div/>');
+			
+			var p = jQuery(inner).find('p');
+			
 			var counter = 0;
 			
 			while(p.length > 0){
 				// Find last shown element
 				for(var i = 0; i < p.length; i++){
-					if(jQuery(p[i]).position().top >= m.height() - 50 || i == p.length - 1){
+					if(jQuery(p[i]).position().top >= m.height() - 110 || i == p.length - 1){
 						var div = jQuery('<div/>').addClass('converted_page');
 						
 						if(i != p.length -1){
@@ -236,11 +244,11 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 				
 				p = jQuery(m).find('p');
 			}
+			// console.log(outer);
 			jQuery('#message_inner').html(jQuery(outer).html());
+			// jQuery(inner).html(jQuery(outer));
 			jQuery(outer).detach();
 		} 
-		
-		
 		
 		// returns empty array if html fits in #message		
 		return pages;
@@ -248,7 +256,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 
 	$scope.makePages = function(){
 		var pages = jQuery('.converted_page');
-		
+		// console.log(pages.length);
 		if(pages.length == 0){
 			pages = $scope.splitHtmlPages();
 		}
@@ -325,18 +333,21 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 
 	$scope.startMessage = function() {
 		jQuery('#page_navigation').hide();
+		jQuery('#message_inner').css('visibility', 'hidden');
 		
 		window.setTimeout(function(){
+			jQuery('#message_inner').css('visibility', 'visible').animate(200);
 			$scope.pageNavigation();
+			$scope.messageTransition();
 		}, 500);
 
-		$scope.messageTransition();
 
 		$scope.setMessageList(jQuery('#message_list', $scope.index));
 	};
 
 	var touch_has_been_enabled = false;
 	var message_box_left = null;
+	var message_box_top = null;
 
 	//--- Touch Features ---
 	$scope.enableTouch = function() {
@@ -348,19 +359,26 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 			m.swipe({
 				swipeStatus: function(event, phase, direction, distance){	
 					if(phase == 'move'){
-						console.log(distance);
+						// set initial values
 						if(message_box_left == null){
-							message_box_left = parseInt($(m).css('left'));
+							message_box_left = parseInt(jQuery(m).css('left'));
+							message_box_top = parseInt(jQuery(m).css('top'));
 						}	
+						
 						if(direction == 'right'){
 							$(m).css('left', distance + message_box_left);
-						} else {
+						} else if(direction == 'left') {
 							$(m).css('left', message_box_left - distance);	
+						} else if(direction == 'up'){
+							// $(m).css('top', message_box_top - distance);
+						} else if(direction == 'down'){
+							// $(m).css('top', message_box_top + distance);
 						}
 					}
 					
 					if(phase == 'end'){
 						var current_message_left = parseInt($(m).css('left')); 
+						var current_message_top = parseInt($(m).css('top'));
 						
 						if(distance > 400){
 							$(m).find('.nc_component').css('visibility', 'hidden');
@@ -371,8 +389,10 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 								}).animate({
 									left: current_message_left + 1000
 								}, 400, function(){
+									$('#message_inner').css('visibility', 'hidden');
 									$scope.setNextMessage();		
-									$(m).css('left', message_box_left);		
+									$(m).css('left', message_box_left);	
+									$(m).css('top', message_box_top);	
 								});							
 							} else if(direction == 'left'){
 								$(m).css({
@@ -380,13 +400,28 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 								}).animate({
 									left: current_message_left - 1000
 								}, 400, function(){
+									$('#message_inner').css('visibility', 'hidden');
 									$scope.setPrevMessage();
 									$(m).css('left', message_box_left);
+									$(m).css('top', message_box_top);
 								});
+							} else if(direction == 'up'){
+								// $(m).css({
+									// top: current_message_top
+								// }).animate({
+									// top: current_message_top - 500
+								// }, 400, function(){
+									// $scope.setPrevPage();
+									// $(m).css('left', message_box_left);
+									// $(m).css('top', message_box_top);
+								// });
+							} else if(direction == 'down'){
+								
 							}
 			
 						} else {
 							$(m).css('left', message_box_left);
+							$(m).css('top', message_box_top);
 						}	
 						
 						

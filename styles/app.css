@@ -17,7 +17,7 @@
       display: block;
       margin-left: auto;
       margin-right: auto; }
-  #new_city_player .click_control, #new_city_player .select_control, #new_city_player .nc_ticker {
+  #new_city_player .click_control, #new_city_player .select_control, #new_city_player .nc_ticker, #new_city_player #message {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
