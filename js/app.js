@@ -220,21 +220,15 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		if(m.height() < inner.height()){
 			var outer = jQuery('<div/>');
 			
-			// console.log(inner.html());
-			
 			var p = jQuery(inner).find('p, div, ul, li, img');
-			// var p = jQuery('div');
-			// var p = document.getElementsByTagName("*");
-			var counter = 0;
 			
-			console.log(p.length);
+			var counter = 0;
 			
 			while(p.length > 0){
 				// Find last shown element
 				for(var i = 0; i < p.length; i++){
 					if(jQuery(p[i]).position().top + jQuery(p[i]).height() >= m.height() || i == p.length - 1){
 						var div = jQuery('<div/>').addClass('converted_page');
-						console.log('x');
 						if(i != p.length -1){
 							i--;
 						}
