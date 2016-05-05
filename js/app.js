@@ -2,6 +2,9 @@
 var data_url = 'temp/test.json';
 var client_name = window.location.hash.replace(/^#\//, '');
 
+// Globals
+var pages_made = false; 
+
 //--- Define Angular App
 var newCityPlayer = angular.module('newCityPlayer', ['ngRoute', 'ngSanitize', 'door3.css']);
 
@@ -45,7 +48,9 @@ newCityPlayer.directive('message', function() {
 				return element.children().length;
 			}, function() {
 				$scope.$evalAsync(function() {
-					$scope.pageNavigation();
+					if(!pages_made){
+						$scope.pageNavigation();
+					}
 					$scope.enableTouch();
 				});
 			});
@@ -92,10 +97,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		$scope.message_index = index;
 		$scope.raw_message = $scope.messages[$scope.message_index];
 		
-		// console.log($scope.raw_message);
-		
 		var msg = $scope.raw_message.message;
-		 // + "{{messageTransition}}";
 		
 		$scope.message = $sce.trustAsHtml(msg);
 		
@@ -218,16 +220,21 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		if(m.height() < inner.height()){
 			var outer = jQuery('<div/>');
 			
-			var p = jQuery(inner).find('p');
+			// console.log(inner.html());
 			
+			var p = jQuery(inner).find('p, div, ul, li, img');
+			// var p = jQuery('div');
+			// var p = document.getElementsByTagName("*");
 			var counter = 0;
+			
+			console.log(p.length);
 			
 			while(p.length > 0){
 				// Find last shown element
 				for(var i = 0; i < p.length; i++){
-					if(jQuery(p[i]).position().top >= m.height() - 110 || i == p.length - 1){
+					if(jQuery(p[i]).position().top + jQuery(p[i]).height() >= m.height() || i == p.length - 1){
 						var div = jQuery('<div/>').addClass('converted_page');
-						
+						console.log('x');
 						if(i != p.length -1){
 							i--;
 						}
@@ -241,22 +248,44 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 						break;
 					}
 				}
-				
-				p = jQuery(m).find('p');
+		
+				p = jQuery(inner).find('p, div, ul, li, img');
 			}
-			// console.log(outer);
+		
 			jQuery('#message_inner').html(jQuery(outer).html());
-			// jQuery(inner).html(jQuery(outer));
 			jQuery(outer).detach();
 		} 
 		
 		// returns empty array if html fits in #message		
 		return pages;
 	};
+	
+	// $scope.splitHtmlPages = function(){
+		// var m = jQuery('#message');
+		// var inner = jQuery('#message_inner');
+		// var pages = [];
+// 		
+		// var factor = (inner.height() / m.height()).toFixed(1);
+		// if(factor > 1.1){
+			// console.log(factor);
+			// var page_count;
+// 			
+			// // If message is taller than #message
+			// if(factor == parseInt(factor)){
+				// page_count = parseInt(factor);
+			// } else {
+				// page_count = parseInt(factor) + 1;
+			// }
+// 	
+// 			
+		// }
+// 		
+// 		
+		// return pages;
+	// };
 
 	$scope.makePages = function(){
 		var pages = jQuery('.converted_page');
-		// console.log(pages.length);
 		if(pages.length == 0){
 			pages = $scope.splitHtmlPages();
 		}
@@ -270,9 +299,11 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		// imgs.css('visibility', 'visible');
 	};
 	
+
+	
 	$scope.pageNavigation = function() {
 		var pages = $scope.makePages();
-		
+		// console.log(pages.length);
 		if (pages.length > 1) {
 			pages.hide();
 			// $scope.centerPptImages();
@@ -286,6 +317,8 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 
 		$scope.total_pages = pages.length;
 		jQuery(pages).first().show();
+		
+		// pages_made = false;
 	};
 
 	//--- Transitions ---
@@ -336,8 +369,10 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 		jQuery('#message_inner').css('visibility', 'hidden');
 		
 		window.setTimeout(function(){
-			jQuery('#message_inner').css('visibility', 'visible').animate(200);
-			$scope.pageNavigation();
+			jQuery('#message_inner').css('visibility', 'visible');
+			if(!pages_made){
+				$scope.pageNavigation();
+			}
 			$scope.messageTransition();
 		}, 500);
 
