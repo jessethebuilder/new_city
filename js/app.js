@@ -227,7 +227,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 			while(p.length > 0){
 				// Find last shown element
 				for(var i = 0; i < p.length; i++){
-					if(jQuery(p[i]).position().top + jQuery(p[i]).height() >= m.height() || i == p.length - 1){
+					if(jQuery(p[i]).position().top + jQuery(p[i]).height() + 50 >= m.height() || i == p.length - 1){
 						var div = jQuery('<div/>').addClass('converted_page');
 						if(i != p.length -1){
 							i--;

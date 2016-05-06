@@ -8,7 +8,6 @@
   #new_city_player #message {
     position: relative; }
     #new_city_player #message .nc_component {
-      overflow: hidden;
       position: relative;
       height: 100%; }
     #new_city_player #message p:first-child {

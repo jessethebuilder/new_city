@@ -13,10 +13,12 @@
   #message{
     position: relative;
     #message_inner{
+      // overflow: hidden;
     }
     
+    
     .nc_component{
-      overflow:hidden;   
+      // overflow:hidden;   
       position: relative;
       height: 100%;
     }
