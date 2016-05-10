@@ -398,10 +398,10 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 							$(m).css('left', distance + message_box_left);
 						} else if(direction == 'left') {
 							$(m).css('left', message_box_left - distance);	
-						} else if(direction == 'up'){
-							// $(m).css('top', message_box_top - distance);
-						} else if(direction == 'down'){
-							// $(m).css('top', message_box_top + distance);
+						} else if(direction == 'up' && $scope.multipage){
+							$(m).css('top', message_box_top - distance);
+						} else if(direction == 'down' && $scope.multipage){
+							$(m).css('top', message_box_top + distance);
 						}
 					}
 					
@@ -409,7 +409,7 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 						var current_message_left = parseInt($(m).css('left')); 
 						var current_message_top = parseInt($(m).css('top'));
 						
-						if(distance > 400){
+						if(distance > 300){
 							$(m).find('.nc_component').css('visibility', 'hidden');
 							
 							if(direction == 'right'){		
@@ -434,18 +434,26 @@ function($scope, $interval, $http, $sce, $location, $route, dateFilter, PlayerDa
 									$(m).css('left', message_box_left);
 									$(m).css('top', message_box_top);
 								});
-							} else if(direction == 'up'){
-								// $(m).css({
-									// top: current_message_top
-								// }).animate({
-									// top: current_message_top - 500
-								// }, 400, function(){
-									// $scope.setPrevPage();
-									// $(m).css('left', message_box_left);
-									// $(m).css('top', message_box_top);
-								// });
-							} else if(direction == 'down'){
-								
+							} else if(direction == 'up' && $scope.multipage){
+								$(m).css({
+									top: current_message_top
+								}).animate({
+									top: current_message_top - 1000
+								}, 800, function(){
+									$scope.setPrevPage();
+									$(m).css('left', message_box_left);
+									$(m).css('top', message_box_top);
+								});
+							} else if(direction == 'down' && $scope.multipage){
+								$(m).css({
+									top: current_message_top
+								}).animate({
+									top: current_message_top + 600
+								}, 600, function(){
+									$scope.setNextPage();
+									$(m).css('left', message_box_left);
+									$(m).css('top', message_box_top);
+								});	
 							}
 			
 						} else {
